@@ -1,0 +1,44 @@
+# Java
+*.class
+*.jar
+*.war
+*.ear
+*.log
+*.hprof
+
+# Maven
+target/
+!target/.gitkeep
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+dependency-reduced-pom.xml
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# Eclipse
+.settings/
+.classpath
+.project
+bin/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Other files
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
