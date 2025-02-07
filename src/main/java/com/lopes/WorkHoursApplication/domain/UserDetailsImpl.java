@@ -7,10 +7,10 @@ import java.util.Collection;
 
 public class UserDetailsImpl implements UserDetails {
 
-    private Long id; // User ID
-    private String username;
-    private String password;
-    private Collection<? extends GrantedAuthority> authorities;
+    private final Long id; // User ID
+    private final String username;
+    private final String password;
+    private final Collection<? extends GrantedAuthority> authorities;
 
     public UserDetailsImpl(Long id, String username, String password, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;

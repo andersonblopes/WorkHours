@@ -35,7 +35,7 @@ public class UserService implements UserDetailsService {
         return new UserDetailsImpl(user.getId(), user.getUsername(), user.getPassword(), List.of());
     }
 
-    public void createUser (String username, String password) {
+    public void createUser(String username, String password) {
         // Create a new User object
         User user = new User();
         user.setUsername(username);
@@ -50,7 +50,7 @@ public class UserService implements UserDetailsService {
         Long userId = ((UserDetailsImpl) authentication.getPrincipal()).getId();
 
         Optional<User> user = userRepository.findById(userId);
-        if(user.isPresent()){
+        if (user.isPresent()) {
             return user.get();
         }
 
