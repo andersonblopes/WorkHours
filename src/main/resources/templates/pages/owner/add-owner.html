@@ -14,12 +14,26 @@
             <input type="text" class="form-control" id="name" name="name" required>
         </div>
         <div class="mb-3">
+            <label for="nickName" class="form-label">Nickname</label>
+            <input type="text" class="form-control" id="nickName" name="nickName">
+        </div>
+        <div class="mb-3">
             <label for="email" class="form-label">Email</label>
             <input type="email" class="form-control" id="email" name="email" required>
         </div>
         <div class="mb-3">
             <label for="phoneNumber" class="form-label">Phone number</label>
             <input type="text" class="form-control" id="phoneNumber" name="phoneNumber">
+        </div>
+        <div class="mb-3">
+            <label for="userId" class="form-label">User</label>
+            <select class="form-select" id="userId" name="userId">
+                <option value="">Select User</option>
+                <option th:each="user : ${users}"
+                        th:value="${user.id}"
+                        th:text="${user.name}">User
+                </option>
+            </select>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
         <a class="btn btn-secondary" th:href="@{/owner}">Cancel</a>

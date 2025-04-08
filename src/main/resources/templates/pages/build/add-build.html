@@ -23,8 +23,15 @@
         </div>
         <div class="mb-3">
             <label for="ownerId" class="form-label">Owner</label>
-            <input type="text" class="form-control" id="ownerId" name="ownerId">
+            <select class="form-select" id="ownerId" name="ownerId" required>
+                <option value="">-- Select Owner --</option>
+                <option th:each="owner : ${owners}"
+                        th:value="${owner.id}"
+                        th:text="${owner.name}">Owner Name
+                </option>
+            </select>
         </div>
+
         <button type="submit" class="btn btn-primary">Submit</button>
         <a class="btn btn-secondary" th:href="@{/build}">Cancel</a>
     </form>

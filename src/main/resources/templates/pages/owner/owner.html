@@ -19,16 +19,20 @@
         <tr>
             <th>ID</th>
             <th>Name</th>
+            <th>Nickname</th>
             <th>Email</th>
             <th>Phone number</th>
+            <th>User</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="owner : ${owners}">
-            <td th:text="${employee.id}"></td>
-            <td th:text="${employee.name}"></td>
-            <td th:text="${employee.email}"></td>
-            <td th:text="${employee.phoneNumber}"></td>
+            <td th:text="${owner.id}"></td>
+            <td th:text="${owner.name}"></td>
+            <td th:text="${owner.nickName}"></td>
+            <td th:text="${owner.email}"></td>
+            <td th:text="${owner.phoneNumber}"></td>
+            <td th:text="${owner.user.nickName}"></td>
         </tr>
         </tbody>
     </table>

@@ -17,7 +17,7 @@ public class OwnerService {
     private final OwnerRepository repository;
     private final UserService userService;
 
-    public List<Owner> getAll() {
+    public List<Owner> findAll() {
         return repository.findAll();
     }
 

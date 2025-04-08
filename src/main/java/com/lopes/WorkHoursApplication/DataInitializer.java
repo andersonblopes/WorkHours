@@ -15,6 +15,8 @@ public class DataInitializer {
         return args -> {
             String defaultUsername = "admin";
             User user = User.builder()
+                    .name("Administrator")
+                    .nickName("ADM")
                     .username(defaultUsername)
                     .password(passwordEncoder.encode("123"))
                     .build();

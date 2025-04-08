@@ -62,4 +62,8 @@ public class UserService implements UserDetailsService {
         return repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("User with ID " + id + " not found"));
     }
+
+    public List<User> findAll() {
+        return repository.findAll();
+    }
 }
