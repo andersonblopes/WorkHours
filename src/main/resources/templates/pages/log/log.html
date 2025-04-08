@@ -18,16 +18,14 @@
         <thead>
         <tr>
             <th>ID</th>
-            <th>Start Time</th>
-            <th>End Time</th>
+            <th>Execution date</th>
             <th>Duration</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="log : ${logs}">
             <td th:text="${log.id}"></td>
-            <td th:text="${log.startTime}"></td>
-            <td th:text="${log.endTime}"></td>
+            <td th:text="${log.executionDate}"></td>
             <td th:text="${log.duration}"></td>
         </tr>
         </tbody>

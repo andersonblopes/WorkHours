@@ -19,7 +19,7 @@ public class WorkLogService {
         return repository.findAll();
     }
 
-    public WorkLog saveLog(WorkLog workLog) {
+    public WorkLog save(WorkLog workLog) {
 
         workLog.setUser(userService.getAuthenticatedUser());
 

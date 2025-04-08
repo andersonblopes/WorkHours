@@ -12,20 +12,22 @@
     <h2 class="mt-5">Add log</h2>
 
     <form th:action="@{/log/save}" method="post">
-        <div class="mb-3">
-            <label for="startTime" class="form-label">Start Time</label>
-            <input type="datetime-local" class="form-control" id="startTime" name="startTime" required>
+        <div class="row mb-3">
+            <div class="col-md-5">
+                <label for="executionDate" class="form-label">Execution date</label>
+                <input type="datetime-local" class="form-control" id="executionDate" name="executionDate" required>
+            </div>
+            <div class="col-md-5">
+                <label for="duration" class="form-label">Duration</label>
+                <input type="text" class="form-control" id="duration" name="duration" required>
+            </div>
+            <div class="col-md-1 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">Submit</button>
+            </div>
+            <div class="col-md-1 d-flex align-items-end">
+                <a class="btn btn-secondary w-100" th:href="@{/log}">Cancel</a>
+            </div>
         </div>
-        <div class="mb-3">
-            <label for="endTime" class="form-label">End Time</label>
-            <input type="datetime-local" class="form-control" id="endTime" name="endTime" required>
-        </div>
-        <div class="mb-3">
-            <label for="duration" class="form-label">Duration</label>
-            <input type="text" class="form-control" id="duration" name="duration" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-        <a class="btn btn-secondary" th:href="@{/log}">Cancel</a>
     </form>
 </div>
 

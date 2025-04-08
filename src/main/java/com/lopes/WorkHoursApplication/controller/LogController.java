@@ -15,11 +15,11 @@ import java.time.LocalDateTime;
 @Controller
 public class LogController {
 
-    private final WorkLogService workLogService;
+    private final WorkLogService service;
 
     @GetMapping("/log")
     public String getLogs(Model model) {
-        model.addAttribute("logs", workLogService.getAll());
+        model.addAttribute("logs", service.getAll());
         return "pages/log/log";
     }
 
@@ -30,17 +30,15 @@ public class LogController {
 
     @PostMapping("/log/save")
     public String save(
-            @RequestParam("startTime") LocalDateTime startTime,
-            @RequestParam("endTime") LocalDateTime endTime,
+            @RequestParam("executionDate") LocalDateTime executionDate,
             @RequestParam Long duration) {
 
         WorkLog log = WorkLog.builder()
-                .startTime(startTime)
-                .endTime(endTime)
+                .executionDate(executionDate)
                 .duration(duration)
                 .build();
 
-        workLogService.saveLog(log);
+        service.save(log);
 
         return "redirect:/pages/log/log";
     }
