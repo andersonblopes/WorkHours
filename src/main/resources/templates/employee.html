@@ -9,29 +9,31 @@
 <div th:replace="fragments/navbar :: navbar"></div>
 
 <div class="container">
-    <h2 class="mt-5">Work Hours Tracker</h2>
+    <h2 class="mt-5">Employees</h2>
 
     <table class="table table-bordered mt-3">
         <thead>
         <tr>
             <th>ID</th>
-            <th>Start Time</th>
-            <th>End Time</th>
-            <th>Duration</th>
+            <th>Name</th>
+            <th>Nickname</th>
+            <th>Email</th>
+            <th>Phone number</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="log : ${worklogs}">
-            <td th:text="${log.id}"></td>
-            <td th:text="${log.startTime}"></td>
-            <td th:text="${log.endTime}"></td>
-            <td th:text="${log.duration}"></td>
+        <tr th:each="employee : ${employees}">
+            <td th:text="${employee.id}"></td>
+            <td th:text="${employee.name}"></td>
+            <td th:text="${employee.nickName}"></td>
+            <td th:text="${employee.email}"></td>
+            <td th:text="${employee.phoneNumber}"></td>
         </tr>
         </tbody>
     </table>
 
     <div class="text-center mt-4">
-        <a class="btn btn-primary" th:href="@{/worklogs/add}">Add Worklog</a>
+        <a class="btn btn-primary" th:href="@{/employee/add}">Add employee</a>
     </div>
 </div>
 
