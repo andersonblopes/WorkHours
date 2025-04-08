@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Apartment</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+<!-- Include the Navbar Fragment -->
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mt-5">
+        <h2 class="mb-0">Apartments</h2>
+        <a class="btn btn-primary" th:href="@{/apartment/add}">Add apartment</a>
+    </div>
+
+    <table class="table table-bordered mt-3">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Description</th>
+            <th>Access code</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="apartment : ${apartments}">
+            <td th:text="${apartment.id}"></td>
+            <td th:text="${apartment.description}"></td>
+            <td th:text="${apartment.accessCode}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Include the Footer Fragment -->
+<div th:replace="fragments/footer :: footer"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
