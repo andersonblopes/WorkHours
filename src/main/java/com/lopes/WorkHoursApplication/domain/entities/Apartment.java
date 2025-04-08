@@ -19,17 +19,16 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "employee")
-public class Employee {
+@Table(name = "apartment")
+public class Apartment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private String nickName;
-    private String phoneNumber;
-    private String email;
+    private String description;
+    private String address;
+    private String accessCode;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "build_id", nullable = false)
+    private Build build;
 }

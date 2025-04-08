@@ -19,7 +19,7 @@ public class LogController {
 
     @GetMapping("/log")
     public String getLogs(Model model) {
-        model.addAttribute("logs", workLogService.getAllLogs());
+        model.addAttribute("logs", workLogService.getAll());
         return "log";
     }
 

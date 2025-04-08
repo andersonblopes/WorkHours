@@ -1,9 +1,8 @@
 package com.lopes.WorkHoursApplication.service;
 
 import com.lopes.WorkHoursApplication.domain.entities.Employee;
-import com.lopes.WorkHoursApplication.domain.entities.WorkLog;
 import com.lopes.WorkHoursApplication.domain.repository.EmployeeRepository;
-import com.lopes.WorkHoursApplication.domain.repository.WorkLogRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +14,16 @@ public class EmployeeService {
 
     private final EmployeeRepository repository;
 
-    public List<Employee> getAllLogs() {
+    public List<Employee> getAll() {
         return repository.findAll();
     }
 
     public Employee save(Employee employee) {
         return repository.save(employee);
+    }
+
+    public Employee findById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Employee with ID " + id + " not found"));
     }
 }

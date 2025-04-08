@@ -3,6 +3,7 @@ package com.lopes.WorkHoursApplication.service;
 import com.lopes.WorkHoursApplication.domain.UserDetailsImpl;
 import com.lopes.WorkHoursApplication.domain.entities.User;
 import com.lopes.WorkHoursApplication.domain.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -21,12 +22,12 @@ import java.util.Optional;
 @Service
 public class UserService implements UserDetailsService {
 
-    private final UserRepository userRepository;
+    private final UserRepository repository;
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
+        User user = repository.findByUsername(username);
         if (user == null) {
             String message = "User  {} not found";
             log.error(message, username);
@@ -40,7 +41,7 @@ public class UserService implements UserDetailsService {
         User user = new User();
         user.setUsername(username);
         user.setPassword(passwordEncoder.encode(password));
-        userRepository.save(user);
+        repository.save(user);
     }
 
     public User getAuthenticatedUser() {
@@ -49,11 +50,16 @@ public class UserService implements UserDetailsService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Long userId = ((UserDetailsImpl) authentication.getPrincipal()).getId();
 
-        Optional<User> user = userRepository.findById(userId);
+        Optional<User> user = repository.findById(userId);
         if (user.isPresent()) {
             return user.get();
         }
 
         throw new UsernameNotFoundException("User not authenticated");
+    }
+
+    public User findById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User with ID " + id + " not found"));
     }
 }
