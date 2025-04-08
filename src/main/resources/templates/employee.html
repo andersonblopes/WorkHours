@@ -9,7 +9,10 @@
 <div th:replace="fragments/navbar :: navbar"></div>
 
 <div class="container">
-    <h2 class="mt-5">Employees</h2>
+    <div class="d-flex justify-content-between align-items-center mt-5">
+        <h2 class="mb-0">Employees</h2>
+        <a class="btn btn-primary" th:href="@{/employee/add}">Add employee</a>
+    </div>
 
     <table class="table table-bordered mt-3">
         <thead>
@@ -31,10 +34,6 @@
         </tr>
         </tbody>
     </table>
-
-    <div class="text-center mt-4">
-        <a class="btn btn-primary" th:href="@{/employee/add}">Add employee</a>
-    </div>
 </div>
 
 <!-- Include the Footer Fragment -->

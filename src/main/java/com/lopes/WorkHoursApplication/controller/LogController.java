@@ -13,38 +13,36 @@ import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 @Controller
-public class WorkLogController {
+public class LogController {
 
     private final WorkLogService workLogService;
 
-    @GetMapping("/worklogs")
-    public String getWorklogs(Model model) {
-        model.addAttribute("worklogs", workLogService.getAllLogs());
-        return "worklogs";
+    @GetMapping("/log")
+    public String getLogs(Model model) {
+        model.addAttribute("logs", workLogService.getAllLogs());
+        return "log";
     }
 
-    @GetMapping("/worklogs/add")
-    public String addWorklogForm() {
-        return "add-worklog";
+    @GetMapping("/log/add")
+    public String add() {
+        return "add-log";
     }
 
-    @PostMapping("/worklogs/save")
-    public String saveWorklog(
+    @PostMapping("/log/save")
+    public String save(
             @RequestParam("startTime") LocalDateTime startTime,
             @RequestParam("endTime") LocalDateTime endTime,
             @RequestParam Long duration) {
 
-        // TODO DTO must be used
-
         WorkLog log = WorkLog.builder()
                 .startTime(startTime)
                 .endTime(endTime)
-                .duration(duration) // TODO Duration must be calculated
+                .duration(duration)
                 .build();
 
         workLogService.saveLog(log);
 
-        return "redirect:/worklogs";
+        return "redirect:/log";
     }
 
 }

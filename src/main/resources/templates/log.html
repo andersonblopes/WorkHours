@@ -9,7 +9,10 @@
 <div th:replace="fragments/navbar :: navbar"></div>
 
 <div class="container">
-    <h2 class="mt-5">Work Hours Tracker</h2>
+    <div class="d-flex justify-content-between align-items-center mt-5">
+        <h2 class="mb-0">Work hours</h2>
+        <a class="btn btn-primary" th:href="@{/log/add}">Add log</a>
+    </div>
 
     <table class="table table-bordered mt-3">
         <thead>
@@ -21,7 +24,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="log : ${worklogs}">
+        <tr th:each="log : ${logs}">
             <td th:text="${log.id}"></td>
             <td th:text="${log.startTime}"></td>
             <td th:text="${log.endTime}"></td>
@@ -29,10 +32,6 @@
         </tr>
         </tbody>
     </table>
-
-    <div class="text-center mt-4">
-        <a class="btn btn-primary" th:href="@{/worklogs/add}">Add Worklog</a>
-    </div>
 </div>
 
 <!-- Include the Footer Fragment -->
