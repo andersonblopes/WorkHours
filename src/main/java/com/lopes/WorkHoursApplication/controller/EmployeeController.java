@@ -18,12 +18,12 @@ public class EmployeeController {
     @GetMapping("/employee")
     public String getEmployees(Model model) {
         model.addAttribute("employees", service.getAll());
-        return "employee";
+        return "pages/employee/employee";
     }
 
     @GetMapping("/employee/add")
     public String addEmployee() {
-        return "add-employee";
+        return "pages/employee/add-employee";
     }
 
     @PostMapping("/employee/save")
@@ -42,7 +42,7 @@ public class EmployeeController {
 
         service.save(employee);
 
-        return "redirect:/employee";
+        return "redirect:/pages/employee/employee";
     }
 
 }

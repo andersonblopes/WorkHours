@@ -20,12 +20,12 @@ public class LogController {
     @GetMapping("/log")
     public String getLogs(Model model) {
         model.addAttribute("logs", workLogService.getAll());
-        return "log";
+        return "pages/log/log";
     }
 
     @GetMapping("/log/add")
     public String add() {
-        return "add-log";
+        return "pages/log/add-log";
     }
 
     @PostMapping("/log/save")
@@ -42,7 +42,7 @@ public class LogController {
 
         workLogService.saveLog(log);
 
-        return "redirect:/log";
+        return "redirect:/pages/log/log";
     }
 
 }
