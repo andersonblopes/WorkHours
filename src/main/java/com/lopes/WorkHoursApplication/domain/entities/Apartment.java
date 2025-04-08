@@ -13,6 +13,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -26,8 +28,9 @@ public class Apartment {
     private Long id;
     private String description;
     private String accessCode;
+    private BigDecimal currencyValue;
 
     @ManyToOne
-    @JoinColumn(name = "build_id", nullable = false)
+    @JoinColumn(name = "build_id")
     private Build build;
 }

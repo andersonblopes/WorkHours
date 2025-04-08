@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Getter
@@ -31,6 +32,16 @@ public class WorkLog {
     private LocalDateTime createdAt;
     private LocalDateTime executionDate;
     private Long duration;
+    // This value should be taken from apartment
+    private BigDecimal currencyValue;
+
+    @ManyToOne
+    @JoinColumn(name = "employee_id", nullable = false)
+    private Employee employee;
+
+    @ManyToOne
+    @JoinColumn(name = "apartment_id", nullable = false)
+    private Apartment apartment;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

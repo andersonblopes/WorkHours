@@ -7,7 +7,7 @@
 <body>
 <div th:replace="fragments/navbar :: navbar"></div>
 <div class="container">
-    <h2 class="mt-5">Add Owner</h2>
+    <h2 class="mt-5">Add Build</h2>
     <form th:action="@{/build/save}" method="post">
         <div class="mb-3">
             <label for="description" class="form-label">Description</label>
@@ -20,6 +20,10 @@
         <div class="mb-3">
             <label for="accessCode" class="form-label">Access code</label>
             <input type="text" class="form-control" id="accessCode" name="accessCode">
+        </div>
+        <div class="mb-3">
+            <label for="ownerId" class="form-label">Owner</label>
+            <input type="text" class="form-control" id="ownerId" name="ownerId">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
         <a class="btn btn-secondary" th:href="@{/build}">Cancel</a>

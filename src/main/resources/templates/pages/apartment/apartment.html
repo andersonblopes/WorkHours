@@ -5,13 +5,12 @@
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
 </head>
 <body>
-<!-- Include the Navbar Fragment -->
 <div th:replace="fragments/navbar :: navbar"></div>
 
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mt-5">
         <h2 class="mb-0">Apartments</h2>
-        <a class="btn btn-primary" th:href="@{/apartment/add}">Add apartment</a>
+        <a class="btn btn-primary" th:href="@{/apartment/add}">Add</a>
     </div>
 
     <table class="table table-bordered mt-3">
@@ -20,6 +19,7 @@
             <th>ID</th>
             <th>Description</th>
             <th>Access code</th>
+            <th>Currency value</th>
         </tr>
         </thead>
         <tbody>
@@ -27,6 +27,7 @@
             <td th:text="${apartment.id}"></td>
             <td th:text="${apartment.description}"></td>
             <td th:text="${apartment.accessCode}"></td>
+            <td th:text="${#numbers.formatDecimal(apartment.currencyValue, 1, 'POINT', 2, 'COMMA')} + ' €'"></td>
         </tr>
         </tbody>
     </table>

@@ -31,7 +31,7 @@ public class BuildController {
             @RequestParam("description") String description,
             @RequestParam("address") String address,
             @RequestParam("accessCode") String accessCode,
-            @RequestParam("ownerId") Long ownerId) {
+            @RequestParam(value = "ownerId", required = false) Long ownerId) {
 
         Build owner = Build.builder()
                 .description(description)

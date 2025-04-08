@@ -11,7 +11,7 @@
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mt-5">
         <h2 class="mb-0">Builds</h2>
-        <a class="btn btn-primary" th:href="@{/build/add}">Add build</a>
+        <a class="btn btn-primary" th:href="@{/build/add}">Add</a>
     </div>
 
     <table class="table table-bordered mt-3">
@@ -21,6 +21,7 @@
             <th>description</th>
             <th>Address</th>
             <th>Access code</th>
+            <th>Owner</th>
         </tr>
         </thead>
         <tbody>
@@ -29,6 +30,7 @@
             <td th:text="${build.description}"></td>
             <td th:text="${build.address}"></td>
             <td th:text="${build.accessCode}"></td>
+            <td th:text="${build.owner.nickName}"></td>
         </tr>
         </tbody>
     </table>
