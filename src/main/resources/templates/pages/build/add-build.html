@@ -24,10 +24,10 @@
         <div class="mb-3">
             <label for="ownerId" class="form-label">Owner</label>
             <select class="form-select" id="ownerId" name="ownerId" required>
-                <option value="">-- Select Owner --</option>
+                <option value="">Select</option>
                 <option th:each="owner : ${owners}"
                         th:value="${owner.id}"
-                        th:text="${owner.name}">Owner Name
+                        th:text="${owner.name}">Owner
                 </option>
             </select>
         </div>
