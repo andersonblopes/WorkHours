@@ -14,7 +14,7 @@ public class EmployeeService {
 
     private final EmployeeRepository repository;
 
-    public List<Employee> getAll() {
+    public List<Employee> findAll() {
         return repository.findAll();
     }
 
