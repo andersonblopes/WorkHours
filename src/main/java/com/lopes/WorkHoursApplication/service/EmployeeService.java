@@ -26,4 +26,8 @@ public class EmployeeService {
         return repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Employee with ID " + id + " not found"));
     }
+
+    public void deleteById(Long id) {
+        repository.deleteById(id);
+    }
 }
