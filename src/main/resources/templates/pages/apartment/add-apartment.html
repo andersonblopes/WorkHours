@@ -7,34 +7,46 @@
 <body>
 <div th:replace="fragments/navbar :: navbar"></div>
 
-<div class="container">
-    <h2 class="mt-5">Add Apartment</h2>
+<div class="container mt-4">
+    <h2 class="mb-4">Add Apartment</h2>
 
     <form th:action="@{/apartment/save}" method="post">
-        <div class="row align-items-end mb-3">
-            <div class="col-md-12">
+        <div class="row g-3">
+            <div class="col-4">
                 <label for="description" class="form-label">Description</label>
                 <input type="text" class="form-control" id="description" name="description" required>
             </div>
-            <div class="col-md-5">
+
+            <div class="col-md-2">
                 <label for="accessCode" class="form-label">Access code</label>
                 <input type="text" class="form-control" id="accessCode" name="accessCode">
             </div>
-            <div class="col-md-5">
+
+            <div class="col-md-2">
                 <label for="currencyValue" class="form-label">Currency value</label>
                 <input type="text" class="form-control" id="currencyValue" name="currencyValue">
             </div>
-            <div class="col-md-1 d-flex">
-                <button type="submit" class="btn btn-primary w-100">Submit</button>
+
+            <div class="col-md-4">
+                <label for="buildId" class="form-label">Build</label>
+                <select class="form-select" id="buildId" name="buildId" required>
+                    <option value="">Select</option>
+                    <option th:each="build : ${builds}"
+                            th:value="${build.id}"
+                            th:text="${build.description}">
+                        Build
+                    </option>
+                </select>
             </div>
-            <div class="col-md-1 d-flex">
-                <a class="btn btn-secondary w-100" th:href="@{/apartment}">Cancel</a>
+
+            <div class="col-12 d-flex gap-2 mt-3">
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <a class="btn btn-secondary" th:href="@{/apartment}">Cancel</a>
             </div>
         </div>
     </form>
 </div>
 
-<!-- Include the Footer Fragment -->
 <div th:replace="fragments/footer :: footer"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

@@ -17,7 +17,7 @@ public class BuildService {
     private final BuildRepository repository;
     private final OwnerService ownerService;
 
-    public List<Build> getAll() {
+    public List<Build> findAll() {
         return repository.findAll();
     }
 

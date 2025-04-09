@@ -18,6 +18,7 @@
         <tr>
             <th>ID</th>
             <th>Description</th>
+            <th>Build</th>
             <th>Access code</th>
             <th>Currency value</th>
         </tr>
@@ -26,6 +27,7 @@
         <tr th:each="apartment : ${apartments}">
             <td th:text="${apartment.id}"></td>
             <td th:text="${apartment.description}"></td>
+            <td th:text="${apartment.build.description}"></td>
             <td th:text="${apartment.accessCode}"></td>
             <td th:text="${#numbers.formatDecimal(apartment.currencyValue, 1, 'POINT', 2, 'COMMA')} + ' €'"></td>
         </tr>

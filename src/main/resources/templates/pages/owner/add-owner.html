@@ -6,41 +6,52 @@
 </head>
 <body>
 <div th:replace="fragments/navbar :: navbar"></div>
-<div class="container">
-    <h2 class="mt-5">Add Owner</h2>
+
+<div class="container mt-4">
+    <h2 class="mb-4">Add Owner</h2>
+
     <form th:action="@{/owner/save}" method="post">
-        <div class="mb-3">
-            <label for="name" class="form-label">Name</label>
-            <input type="text" class="form-control" id="name" name="name" required>
+        <div class="row g-3">
+            <div class="col-md-9">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+
+            <div class="col-md-3">
+                <label for="nickName" class="form-label">Nickname</label>
+                <input type="text" class="form-control" id="nickName" name="nickName">
+            </div>
+
+            <div class="col-md-5">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+
+            <div class="col-md-2">
+                <label for="phoneNumber" class="form-label">Phone number</label>
+                <input type="text" class="form-control" id="phoneNumber" name="phoneNumber">
+            </div>
+
+            <div class="col-md-5">
+                <label for="userId" class="form-label">User</label>
+                <select class="form-select" id="userId" name="userId">
+                    <option value="">Select</option>
+                    <option th:each="user : ${users}"
+                            th:value="${user.id}"
+                            th:text="${user.nickName}">
+                        User
+                    </option>
+                </select>
+            </div>
         </div>
-        <div class="mb-3">
-            <label for="nickName" class="form-label">Nickname</label>
-            <input type="text" class="form-control" id="nickName" name="nickName">
+
+        <div class="mt-4 d-flex gap-2">
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <a class="btn btn-secondary" th:href="@{/owner}">Cancel</a>
         </div>
-        <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="email" name="email" required>
-        </div>
-        <div class="mb-3">
-            <label for="phoneNumber" class="form-label">Phone number</label>
-            <input type="text" class="form-control" id="phoneNumber" name="phoneNumber">
-        </div>
-        <div class="mb-3">
-            <label for="userId" class="form-label">User</label>
-            <select class="form-select" id="userId" name="userId">
-                <option value="">Select</option>
-                <option th:each="user : ${users}"
-                        th:value="${user.id}"
-                        th:text="${user.name}">User
-                </option>
-            </select>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-        <a class="btn btn-secondary" th:href="@{/owner}">Cancel</a>
     </form>
 </div>
 
-<!-- Include the Footer Fragment -->
 <div th:replace="fragments/footer :: footer"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

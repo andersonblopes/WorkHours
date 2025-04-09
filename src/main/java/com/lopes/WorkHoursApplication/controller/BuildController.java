@@ -22,7 +22,7 @@ public class BuildController {
 
     @GetMapping("/build")
     public String getAll(Model model) {
-        model.addAttribute("builds", service.getAll());
+        model.addAttribute("builds", service.findAll());
         return "pages/build/build";
     }
 
@@ -49,7 +49,7 @@ public class BuildController {
 
         service.save(owner);
 
-        return "redirect:/pages/build/build";
+        return "redirect:/build";
     }
 
 }
