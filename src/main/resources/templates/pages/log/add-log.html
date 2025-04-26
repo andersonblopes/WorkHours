@@ -8,27 +8,30 @@
 <!-- Include the Navbar Fragment -->
 <div th:replace="fragments/navbar :: navbar"></div>
 
-<div class="container">
-    <h2 class="mt-5">Add log</h2>
+<div class="container my-5">
+    <div class="card shadow-sm rounded-3">
+        <div class="card-body">
+            <h2 class="mt-5">Add log</h2>
 
-    <form th:action="@{/log/save}" method="post">
-        <div class="row mb-3">
-            <div class="col-md-5">
-                <label for="executionDate" class="form-label">Execution date</label>
-                <input type="datetime-local" class="form-control" id="executionDate" name="executionDate" required>
-            </div>
-            <div class="col-md-5">
-                <label for="duration" class="form-label">Duration</label>
-                <input type="text" class="form-control" id="duration" name="duration" required>
-            </div>
-            <div class="col-md-1 d-flex align-items-end">
-                <button type="submit" class="btn btn-primary w-100">Submit</button>
-            </div>
-            <div class="col-md-1 d-flex align-items-end">
-                <a class="btn btn-secondary w-100" th:href="@{/log}">Cancel</a>
-            </div>
+            <form th:action="@{/log/save}" method="post">
+                <div class="row mb-3">
+                    <div class="col-md-5">
+                        <label for="executionDate" class="form-label">Execution date</label>
+                        <input type="datetime-local" class="form-control" id="executionDate" name="executionDate"
+                               required>
+                    </div>
+                    <div class="col-md-5">
+                        <label for="duration" class="form-label">Duration</label>
+                        <input type="text" class="form-control" id="duration" name="duration" required>
+                    </div>
+                    <div class="col-12 d-flex justify-content-end gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <a class="btn btn-secondary" th:href="@{/log}">Cancel</a>
+                    </div>
+                </div>
+            </form>
         </div>
-    </form>
+    </div>
 </div>
 
 <!-- Include the Footer Fragment -->

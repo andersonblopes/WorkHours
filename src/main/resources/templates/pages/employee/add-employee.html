@@ -7,58 +7,62 @@
 <body>
 <div th:replace="fragments/navbar :: navbar"></div>
 
-<div class="container mt-4">
-    <h2 class="mb-4" th:text="${employee != null} ? 'Edit Employee' : 'Add Employee'">Add Employee</h2>
+<div class="container my-5">
+    <div class="card shadow-sm rounded-3">
+        <div class="card-body">
+            <h2 class="mb-4" th:text="${employee != null} ? 'Edit Employee' : 'Add Employee'">Add Employee</h2>
 
-    <form th:action="@{/employee/save}" method="post">
-        <div class="row g-3">
+            <form th:action="@{/employee/save}" method="post">
+                <div class="row g-3">
 
-            <!-- Hidden input for editing -->
-            <input type="hidden" name="id" th:value="${employee?.id}">
+                    <!-- Hidden input for editing -->
+                    <input type="hidden" name="id" th:value="${employee?.id}">
 
-            <div class="col-md-9">
-                <label for="name" class="form-label">Name</label>
-                <input type="text" class="form-control" id="name" name="name" required
-                       th:value="${employee?.name}">
-            </div>
+                    <div class="col-md-9">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" required
+                               th:value="${employee?.name}">
+                    </div>
 
-            <div class="col-md-3">
-                <label for="nickName" class="form-label">Nickname</label>
-                <input type="text" class="form-control" id="nickName" name="nickName"
-                       th:value="${employee?.nickName}">
-            </div>
+                    <div class="col-md-3">
+                        <label for="nickName" class="form-label">Nickname</label>
+                        <input type="text" class="form-control" id="nickName" name="nickName"
+                               th:value="${employee?.nickName}">
+                    </div>
 
-            <div class="col-md-4">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" name="email" required
-                       th:value="${employee?.email}">
-            </div>
+                    <div class="col-md-4">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required
+                               th:value="${employee?.email}">
+                    </div>
 
-            <div class="col-md-3">
-                <label for="phoneNumber" class="form-label">Phone number</label>
-                <input type="text" class="form-control" id="phoneNumber" name="phoneNumber"
-                       th:value="${employee?.phoneNumber}">
-            </div>
+                    <div class="col-md-3">
+                        <label for="phoneNumber" class="form-label">Phone number</label>
+                        <input type="text" class="form-control" id="phoneNumber" name="phoneNumber"
+                               th:value="${employee?.phoneNumber}">
+                    </div>
 
-            <div class="col-md-5">
-                <label for="userId" class="form-label">User</label>
-                <select class="form-select" id="userId" name="userId">
-                    <option value="">Select</option>
-                    <option th:each="user : ${users}"
-                            th:value="${user.id}"
-                            th:text="${user.nickName}"
-                            th:selected="${employee?.user?.id} == ${user.id}">
-                        Owner
-                    </option>
-                </select>
-            </div>
+                    <div class="col-md-5">
+                        <label for="userId" class="form-label">User</label>
+                        <select class="form-select" id="userId" name="userId">
+                            <option value="">Select</option>
+                            <option th:each="user : ${users}"
+                                    th:value="${user.id}"
+                                    th:text="${user.nickName}"
+                                    th:selected="${employee?.user?.id} == ${user.id}">
+                                Owner
+                            </option>
+                        </select>
+                    </div>
 
-            <div class="col-12 d-flex gap-2 mt-3">
-                <button type="submit" class="btn btn-primary">Submit</button>
-                <a class="btn btn-secondary" th:href="@{/employee}">Cancel</a>
-            </div>
+                    <div class="col-12 d-flex justify-content-end gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <a class="btn btn-secondary" th:href="@{/employee}">Cancel</a>
+                    </div>
+                </div>
+            </form>
         </div>
-    </form>
+    </div>
 </div>
 
 <div th:replace="fragments/footer :: footer"></div>
