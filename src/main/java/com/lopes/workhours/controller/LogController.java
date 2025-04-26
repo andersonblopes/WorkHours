@@ -47,7 +47,8 @@ public class LogController {
             @RequestParam("executionDate") final LocalDateTime executionDate,
             @RequestParam("employeeId") final Long employeeId,
             @RequestParam("apartmentId") final Long apartmentId,
-            @RequestParam("duration") final Long duration) {
+            @RequestParam("duration") final Long duration,
+            @RequestParam("notes") final String notes) {
 
         final var apartment = apartmentService.findById(apartmentId);
         final var employee = employeeService.findById(employeeId);
@@ -65,6 +66,7 @@ public class LogController {
         log.setApartment(apartment);
         log.setDurationType(apartment.getDurationType());
         log.setEmployee(employee);
+        log.setNotes(notes);
 
         service.save(log);
 

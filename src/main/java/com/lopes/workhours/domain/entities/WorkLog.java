@@ -1,6 +1,7 @@
 package com.lopes.workhours.domain.entities;
 
 import com.lopes.workhours.domain.enums.DurationType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -38,6 +39,8 @@ public class WorkLog {
     private DurationType durationType;
     private Long duration;
     private BigDecimal currencyValue;
+    @Column(columnDefinition = "TEXT")
+    private String notes;
 
     @ManyToOne
     @JoinColumn(name = "employee_id", nullable = false)
