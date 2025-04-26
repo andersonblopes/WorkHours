@@ -61,7 +61,7 @@
                         aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Are you sure you want to delete <strong id="employeeName"></strong>?
+                Are you sure you want to delete <strong id="entityName"></strong>?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -83,10 +83,10 @@
         const id = button.getAttribute('data-id');
         const name = button.getAttribute('data-name');
 
-        const employeeName = deleteModal.querySelector('#employeeName');
+        const entityName = deleteModal.querySelector('#entityName');
         const confirmBtn = deleteModal.querySelector('#confirmDeleteBtn');
 
-        employeeName.textContent = name;
+        entityName.textContent = name;
         confirmBtn.href = `/employee/delete/${id}`;
     });
 </script>

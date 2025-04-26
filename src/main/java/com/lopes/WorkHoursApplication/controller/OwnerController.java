@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -53,6 +54,20 @@ public class OwnerController {
 
         service.save(owner);
 
+        return "redirect:/owner";
+    }
+
+    @GetMapping("/owner/edit/{id}")
+    public String editEmployee(@PathVariable Long id, Model model) {
+        Owner owner = service.findById(id);
+        model.addAttribute("owner", owner);
+        model.addAttribute("users", userService.findAll());
+        return "pages/owner/add-owner";
+    }
+
+    @GetMapping("/owner/delete/{id}")
+    public String deleteEmployee(@PathVariable Long id) {
+        service.deleteById(id);
         return "redirect:/owner";
     }
 

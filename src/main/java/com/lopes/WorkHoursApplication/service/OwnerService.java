@@ -35,4 +35,8 @@ public class OwnerService {
                 .orElseThrow(() -> new EntityNotFoundException("Owner with ID " + id + " not found"));
     }
 
+    public void deleteById(Long id) {
+        repository.deleteById(id);
+    }
+
 }
