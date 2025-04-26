@@ -30,8 +30,9 @@ public class ApartmentController {
     private final DurationService durationService;
 
     @GetMapping
-    public String list(Model model) {
+    public String list(Model model, Locale locale) {
         model.addAttribute("apartments", service.getAll());
+        model.addAttribute("durationDescriptions", getDurationDescriptions(locale));
         return "pages/apartment/apartment";
     }
 
