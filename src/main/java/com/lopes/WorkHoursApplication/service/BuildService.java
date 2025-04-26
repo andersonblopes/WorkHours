@@ -34,4 +34,8 @@ public class BuildService {
         return repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Build with ID " + id + " not found"));
     }
+
+    public void deleteById(Long id) {
+        repository.deleteById(id);
+    }
 }

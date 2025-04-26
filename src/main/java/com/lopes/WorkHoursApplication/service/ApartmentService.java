@@ -2,6 +2,7 @@ package com.lopes.WorkHoursApplication.service;
 
 import com.lopes.WorkHoursApplication.domain.entities.Apartment;
 import com.lopes.WorkHoursApplication.domain.repository.ApartmentRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,5 +28,14 @@ public class ApartmentService {
         }
 
         return repository.save(entity);
+    }
+
+    public Apartment findById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Apartment with ID " + id + " not found"));
+    }
+
+    public void deleteById(Long id) {
+        repository.deleteById(id);
     }
 }

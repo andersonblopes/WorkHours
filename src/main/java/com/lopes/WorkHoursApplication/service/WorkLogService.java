@@ -30,4 +30,8 @@ public class WorkLogService {
         return repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Work log with ID " + id + " not found"));
     }
+
+    public void deleteById(Long id) {
+        repository.deleteById(id);
+    }
 }

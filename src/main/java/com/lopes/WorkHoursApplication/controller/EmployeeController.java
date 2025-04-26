@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Objects;
+import static java.util.Objects.nonNull;
 
 @RequiredArgsConstructor
 @Controller
@@ -21,52 +21,57 @@ public class EmployeeController {
     private final UserService userService;
 
     @GetMapping("/employee")
-    public String getEmployees(Model model) {
+    public String getAllEntities(final Model model) {
         model.addAttribute("employees", service.findAll());
+        
         return "pages/employee/employee";
     }
 
     @GetMapping("/employee/add")
-    public String addEmployee(Model model) {
+    public String addEntity(final Model model) {
         model.addAttribute("users", userService.findAll());
+
         return "pages/employee/add-employee";
     }
 
     @PostMapping("/employee/save")
-    public String save(
-            @RequestParam(value = "id", required = false) Long id,
-            @RequestParam("name") String name,
-            @RequestParam("nickName") String nickName,
-            @RequestParam("phoneNumber") String phoneNumber,
-            @RequestParam("email") String email,
-            @RequestParam(value = "userId", required = false) Long userId) {
+    public String saveEntity(
+            @RequestParam(value = "id", required = false) final Long id,
+            @RequestParam("name") final String name,
+            @RequestParam("nickName") final String nickName,
+            @RequestParam("phoneNumber") final String phoneNumber,
+            @RequestParam("email") final String email,
+            @RequestParam(value = "userId", required = false) final Long userId) {
 
-        Employee employee = (id != null) ? service.findById(id) : new Employee();
+        final var employee = (id != null) ? service.findById(id) : new Employee();
 
         employee.setName(name);
         employee.setNickName(nickName);
         employee.setPhoneNumber(phoneNumber);
         employee.setEmail(email);
 
-        if (Objects.nonNull(userId)) {
+        if (nonNull(userId)) {
             employee.setUser(userService.findById(userId));
         }
 
         service.save(employee);
+
         return "redirect:/employee";
     }
 
     @GetMapping("/employee/edit/{id}")
-    public String editEmployee(@PathVariable Long id, Model model) {
-        Employee employee = service.findById(id);
+    public String editEntity(@PathVariable final Long id, final Model model) {
+        final var employee = service.findById(id);
         model.addAttribute("employee", employee);
         model.addAttribute("users", userService.findAll());
+
         return "pages/employee/add-employee";
     }
 
     @GetMapping("/employee/delete/{id}")
-    public String deleteEmployee(@PathVariable Long id) {
+    public String deleteEntity(@PathVariable final Long id) {
         service.deleteById(id);
+
         return "redirect:/employee";
     }
 }
