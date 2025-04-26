@@ -11,7 +11,8 @@
 <div class="container my-5">
     <div class="card shadow-sm rounded-3">
         <div class="card-body">
-            <h2 class="mt-5">Add log</h2>
+            <h2 class="card-title mb-4" th:text="${log?.id != null} ? 'Edit Log' : 'Add Log'">Add
+                log</h2>
 
             <form th:action="@{/log/save}" method="post">
                 <div class="row mb-3">

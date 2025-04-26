@@ -9,30 +9,32 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @RequiredArgsConstructor
 @Controller
+@RequestMapping("/build")
 public class BuildController {
 
     private final BuildService service;
     private final OwnerService ownerService;
 
-    @GetMapping("/build")
+    @GetMapping()
     public String getAllEntities(final Model model) {
         model.addAttribute("builds", service.findAll());
 
         return "pages/build/build";
     }
 
-    @GetMapping("/build/add")
+    @GetMapping("/add")
     public String addEntity(final Model model) {
         model.addAttribute("owners", ownerService.findAll());
 
         return "pages/build/add-build";
     }
 
-    @PostMapping("/build/save")
+    @PostMapping("/save")
     public String saveEntity(
             @RequestParam("description") final String description,
             @RequestParam("address") final String address,
@@ -51,7 +53,7 @@ public class BuildController {
         return "redirect:/build";
     }
 
-    @GetMapping("/build/edit/{id}")
+    @GetMapping("/edit/{id}")
     public String editEntity(@PathVariable final Long id, final Model model) {
         final var entity = service.findById(id);
         model.addAttribute("build", entity);
@@ -60,7 +62,7 @@ public class BuildController {
         return "pages/build/add-build";
     }
 
-    @GetMapping("/build/delete/{id}")
+    @GetMapping("/delete/{id}")
     public String deleteEntity(@PathVariable final Long id) {
         service.deleteById(id);
 

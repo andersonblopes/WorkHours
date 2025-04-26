@@ -33,12 +33,14 @@ public class ApartmentController {
     public String list(Model model, Locale locale) {
         model.addAttribute("apartments", service.getAll());
         model.addAttribute("durationDescriptions", getDurationDescriptions(locale));
+
         return "pages/apartment/apartment";
     }
 
     @GetMapping("/add")
     public String addForm(Model model, Locale locale) {
         populateFormModel(model, new Apartment(), locale);
+
         return "pages/apartment/add-apartment";
     }
 
@@ -46,6 +48,7 @@ public class ApartmentController {
     public String editForm(@PathVariable Long id, Model model, Locale locale) {
         Apartment apartment = service.findById(id);
         populateFormModel(model, apartment, locale);
+
         return "pages/apartment/add-apartment";
     }
 
@@ -88,6 +91,7 @@ public class ApartmentController {
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id) {
         service.deleteById(id);
+
         return "redirect:/apartment";
     }
 
