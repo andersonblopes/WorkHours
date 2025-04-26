@@ -8,23 +8,29 @@
 <div th:replace="fragments/navbar :: navbar"></div>
 
 <div class="container mt-4">
-    <h2 class="mb-4">Add Build</h2>
+    <h2 class="mb-4" th:text="${build != null} ? 'Edit Build' : 'Add Build'">Add Build</h2>
 
     <form th:action="@{/build/save}" method="post">
         <div class="row g-3">
+
+            <!-- Hidden input for editing -->
+            <input type="hidden" name="id" th:value="${build?.id}">
+
             <div class="col-md-10">
                 <label for="description" class="form-label">Description</label>
-                <input type="text" class="form-control" id="description" name="description" required>
+                <input type="text" class="form-control" id="description" name="description" required
+                       th:value="${build?.description}">
             </div>
 
             <div class="col-md-2">
                 <label for="accessCode" class="form-label">Access code</label>
-                <input type="text" class="form-control" id="accessCode" name="accessCode">
+                <input type="text" class="form-control" id="accessCode" name="accessCode"
+                       th:value="${build?.accessCode}">
             </div>
 
             <div class="col-md-8">
                 <label for="address" class="form-label">Address</label>
-                <input type="text" class="form-control" id="address" name="address">
+                <input type="text" class="form-control" id="address" name="address" th:value="${build?.address}">
             </div>
 
             <div class="col-md-4">
@@ -33,7 +39,8 @@
                     <option value="">Select</option>
                     <option th:each="owner : ${owners}"
                             th:value="${owner.id}"
-                            th:text="${owner.name}">
+                            th:text="${owner.name}"
+                            th:selected="${build?.owner?.id} == ${owner.id}">
                         Owner
                     </option>
                 </select>
