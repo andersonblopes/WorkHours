@@ -1,0 +1,33 @@
+package com.lopes.workhours.service;
+
+import com.lopes.workhours.domain.entities.Employee;
+import com.lopes.workhours.domain.repository.EmployeeRepository;
+import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@RequiredArgsConstructor
+@Service
+public class EmployeeService {
+
+    private final EmployeeRepository repository;
+
+    public List<Employee> findAll() {
+        return repository.findAll();
+    }
+
+    public Employee save(Employee employee) {
+        return repository.save(employee);
+    }
+
+    public Employee findById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Employee with ID " + id + " not found"));
+    }
+
+    public void deleteById(Long id) {
+        repository.deleteById(id);
+    }
+}
