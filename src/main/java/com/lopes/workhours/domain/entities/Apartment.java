@@ -1,6 +1,9 @@
 package com.lopes.workhours.domain.entities;
 
+import com.lopes.workhours.domain.enums.DurationType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,6 +31,8 @@ public class Apartment {
     private Long id;
     private String description;
     private String accessCode;
+    @Enumerated(EnumType.STRING)
+    private DurationType durationType;
     private BigDecimal currencyValue;
 
     @ManyToOne

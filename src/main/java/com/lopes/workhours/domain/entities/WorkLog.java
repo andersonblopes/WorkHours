@@ -1,6 +1,9 @@
 package com.lopes.workhours.domain.entities;
 
+import com.lopes.workhours.domain.enums.DurationType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,8 +34,9 @@ public class WorkLog {
     @CreationTimestamp
     private LocalDateTime createdAt;
     private LocalDateTime executionDate;
+    @Enumerated(EnumType.STRING)
+    private DurationType durationType;
     private Long duration;
-    // This value should be taken from apartment
     private BigDecimal currencyValue;
 
     @ManyToOne
