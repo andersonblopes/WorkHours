@@ -8,23 +8,30 @@
 <div th:replace="fragments/navbar :: navbar"></div>
 
 <div class="container mt-4">
-    <h2 class="mb-4">Add Apartment</h2>
+    <h2 class="mb-4" th:text="${apartment != null} ? 'Edit Apartment' : 'Add Apartment'">Add Apartment</h2>
 
     <form th:action="@{/apartment/save}" method="post">
         <div class="row g-3">
+
+            <!-- Hidden input for editing -->
+            <input type="hidden" name="id" th:value="${apartment?.id}">
+
             <div class="col-4">
                 <label for="description" class="form-label">Description</label>
-                <input type="text" class="form-control" id="description" name="description" required>
+                <input type="text" class="form-control" id="description" name="description" required
+                       th:value="${apartment?.description}">
             </div>
 
             <div class="col-md-2">
                 <label for="accessCode" class="form-label">Access code</label>
-                <input type="text" class="form-control" id="accessCode" name="accessCode">
+                <input type="text" class="form-control" id="accessCode" name="accessCode"
+                       th:value="${apartment?.accessCode}">
             </div>
 
             <div class="col-md-2">
                 <label for="currencyValue" class="form-label">Currency value</label>
-                <input type="text" class="form-control" id="currencyValue" name="currencyValue">
+                <input type="text" class="form-control" id="currencyValue" name="currencyValue"
+                       th:value="${apartment?.currencyValue}">
             </div>
 
             <div class="col-md-4">
@@ -33,7 +40,8 @@
                     <option value="">Select</option>
                     <option th:each="build : ${builds}"
                             th:value="${build.id}"
-                            th:text="${build.description}">
+                            th:text="${build.description}"
+                            th:selected="${apartment?.build?.id} == ${build.id}">
                         Build
                     </option>
                 </select>
