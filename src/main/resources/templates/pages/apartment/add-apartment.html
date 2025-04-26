@@ -1,58 +1,78 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Add Apartment</title>
+    <title th:text="${apartment?.id != null} ? 'Edit Apartment' : 'Add Apartment'">Apartment Form</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
 </head>
 <body>
+
 <div th:replace="fragments/navbar :: navbar"></div>
 
-<div class="container mt-4">
-    <h2 class="mb-4" th:text="${apartment != null} ? 'Edit Apartment' : 'Add Apartment'">Add Apartment</h2>
+<div class="container my-5">
+    <div class="card shadow-sm rounded-3">
+        <div class="card-body">
+            <h2 class="card-title mb-4" th:text="${apartment?.id != null} ? 'Edit Apartment' : 'Add Apartment'">Add
+                Apartment</h2>
 
-    <form th:action="@{/apartment/save}" method="post">
-        <div class="row g-3">
+            <form th:action="@{/apartment/save}" method="post">
+                <input type="hidden" name="id" th:value="${apartment?.id}"/>
 
-            <!-- Hidden input for editing -->
-            <input type="hidden" name="id" th:value="${apartment?.id}">
+                <div class="row g-3">
 
-            <div class="col-4">
-                <label for="description" class="form-label">Description</label>
-                <input type="text" class="form-control" id="description" name="description" required
-                       th:value="${apartment?.description}">
-            </div>
+                    <div class="col-md-6">
+                        <label for="description" class="form-label">Description</label>
+                        <input type="text" class="form-control" id="description" name="description" required
+                               th:value="${apartment?.description}">
+                    </div>
 
-            <div class="col-md-2">
-                <label for="accessCode" class="form-label">Access code</label>
-                <input type="text" class="form-control" id="accessCode" name="accessCode"
-                       th:value="${apartment?.accessCode}">
-            </div>
+                    <div class="col-md-6">
+                        <label for="accessCode" class="form-label">Access Code</label>
+                        <input type="text" class="form-control" id="accessCode" name="accessCode"
+                               th:value="${apartment?.accessCode}">
+                    </div>
 
-            <div class="col-md-2">
-                <label for="currencyValue" class="form-label">Currency value</label>
-                <input type="text" class="form-control" id="currencyValue" name="currencyValue"
-                       th:value="${apartment?.currencyValue}">
-            </div>
+                    <div class="col-md-4">
+                        <label for="durationType" class="form-label">Duration</label>
+                        <select class="form-select" id="durationType" name="durationType" required>
+                            <option value="" disabled th:selected="${apartment?.durationType == null}">Select a
+                                duration
+                            </option>
+                            <option th:each="duration : ${durationTypes}"
+                                    th:value="${duration.name()}"
+                                    th:text="${durationDescriptions[duration.name()]}"
+                                    th:selected="${apartment?.durationType?.name() == duration.name()}">
+                            </option>
+                        </select>
+                    </div>
 
-            <div class="col-md-4">
-                <label for="buildId" class="form-label">Build</label>
-                <select class="form-select" id="buildId" name="buildId" required>
-                    <option value="">Select</option>
-                    <option th:each="build : ${builds}"
-                            th:value="${build.id}"
-                            th:text="${build.description}"
-                            th:selected="${apartment?.build?.id} == ${build.id}">
-                        Build
-                    </option>
-                </select>
-            </div>
+                    <div class="col-md-4">
+                        <label for="currencyValue" class="form-label">Currency Value</label>
+                        <input type="text" class="form-control" id="currencyValue" name="currencyValue"
+                               th:value="${apartment?.currencyValue}">
+                    </div>
 
-            <div class="col-12 d-flex gap-2 mt-3">
-                <button type="submit" class="btn btn-primary">Submit</button>
-                <a class="btn btn-secondary" th:href="@{/apartment}">Cancel</a>
-            </div>
+                    <div class="col-md-4">
+                        <label for="buildId" class="form-label">Build</label>
+                        <select class="form-select" id="buildId" name="buildId" required>
+                            <option value="">Select a build</option>
+                            <option th:each="build : ${builds}"
+                                    th:value="${build.id}"
+                                    th:text="${build.description}"
+                                    th:selected="${apartment?.build?.id == build.id}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-12 d-flex justify-content-end gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <a class="btn btn-outline-secondary" th:href="@{/apartment}">Cancel</a>
+                    </div>
+
+                </div>
+            </form>
+
         </div>
-    </form>
+    </div>
 </div>
 
 <div th:replace="fragments/footer :: footer"></div>
