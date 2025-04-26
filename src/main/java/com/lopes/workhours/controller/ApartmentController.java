@@ -31,7 +31,7 @@ public class ApartmentController {
 
     @GetMapping
     public String list(Model model, Locale locale) {
-        model.addAttribute("apartments", service.getAll());
+        model.addAttribute("apartments", service.findAll());
         model.addAttribute("durationDescriptions", getDurationDescriptions(locale));
 
         return "pages/apartment/apartment";

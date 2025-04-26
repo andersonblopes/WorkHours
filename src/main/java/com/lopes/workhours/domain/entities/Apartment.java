@@ -38,4 +38,8 @@ public class Apartment {
     @ManyToOne
     @JoinColumn(name = "build_id")
     private Build build;
+
+    public String descriptionFormated() {
+        return build.getDescription().concat(" - ").concat(description);
+    }
 }

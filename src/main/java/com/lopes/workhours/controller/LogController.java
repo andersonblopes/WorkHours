@@ -1,6 +1,8 @@
 package com.lopes.workhours.controller;
 
 import com.lopes.workhours.domain.entities.WorkLog;
+import com.lopes.workhours.service.ApartmentService;
+import com.lopes.workhours.service.EmployeeService;
 import com.lopes.workhours.service.WorkLogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -19,38 +21,62 @@ import java.time.LocalDateTime;
 public class LogController {
 
     private final WorkLogService service;
+    private final ApartmentService apartmentService;
+    private final EmployeeService employeeService;
 
     @GetMapping()
     public String getLogs(final Model model) {
         model.addAttribute("logs", service.getAll());
+        model.addAttribute("apartments", apartmentService.findAll());
+        model.addAttribute("employees", employeeService.findAll());
 
         return "pages/log/log";
     }
 
     @GetMapping("/add")
-    public String add() {
+    public String add(final Model model) {
+        model.addAttribute("apartments", apartmentService.findAll());
+        model.addAttribute("employees", employeeService.findAll());
+
         return "pages/log/add-log";
     }
 
     @PostMapping("/save")
     public String save(
-            @RequestParam("executionDate") LocalDateTime executionDate,
-            @RequestParam Long duration) {
+            @RequestParam(value = "id", required = false) final Long id,
+            @RequestParam("executionDate") final LocalDateTime executionDate,
+            @RequestParam("employeeId") final Long employeeId,
+            @RequestParam("apartmentId") final Long apartmentId,
+            @RequestParam("duration") final Long duration) {
 
-        WorkLog log = WorkLog.builder()
-                .executionDate(executionDate)
-                .duration(duration)
-                .build();
+        final var apartment = apartmentService.findById(apartmentId);
+        final var employee = employeeService.findById(employeeId);
+
+        final WorkLog log;
+
+        if (id != null) {
+            log = service.findById(id);
+        } else {
+            log = new WorkLog();
+        }
+
+        log.setExecutionDate(executionDate);
+        log.setDuration(duration);
+        log.setApartment(apartment);
+        log.setDurationType(apartment.getDurationType());
+        log.setEmployee(employee);
 
         service.save(log);
 
-        return "redirect:/pages/log/log";
+        return "redirect:/log";
     }
 
     @GetMapping("/edit/{id}")
     public String editEntity(@PathVariable final Long id, final Model model) {
         final var entity = service.findById(id);
         model.addAttribute("log", entity);
+        model.addAttribute("apartments", apartmentService.findAll());
+        model.addAttribute("employees", employeeService.findAll());
 
         return "pages/log/add-log";
     }

@@ -17,7 +17,7 @@ public class ApartmentService {
     private final ApartmentRepository repository;
     private final BuildService buildService;
 
-    public List<Apartment> getAll() {
+    public List<Apartment> findAll() {
         return repository.findAll();
     }
 
