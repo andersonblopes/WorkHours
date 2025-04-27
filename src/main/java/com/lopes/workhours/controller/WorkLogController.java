@@ -18,17 +18,36 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/log")
-public class LogController {
+public class WorkLogController {
 
     private final WorkLogService service;
     private final ApartmentService apartmentService;
     private final EmployeeService employeeService;
 
-    @GetMapping()
-    public String getLogs(final Model model) {
-        model.addAttribute("logs", service.getAll());
+//    @GetMapping()
+//    public String getLogs(final Model model) {
+//        model.addAttribute("logs", service.getAll());
+//        model.addAttribute("apartments", apartmentService.findAll());
+//        model.addAttribute("employees", employeeService.findAll());
+//
+//        return "pages/log/log";
+//    }
+
+    @GetMapping
+    public String getLogs(
+            @RequestParam(value = "employeeNickname", required = false) final String employeeNickname,
+            @RequestParam(value = "apartmentDesc", required = false) final String apartmentDesc,
+            @RequestParam(value = "startDate", required = false) final String startDate,
+            @RequestParam(value = "endDate", required = false) final String endDate,
+            final Model model) {
+
+        model.addAttribute("logs", service.getAllFiltered(employeeNickname, apartmentDesc, startDate, endDate));
         model.addAttribute("apartments", apartmentService.findAll());
         model.addAttribute("employees", employeeService.findAll());
+        model.addAttribute("employeeNickname", employeeNickname);
+        model.addAttribute("apartmentDesc", apartmentDesc);
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("endDate", endDate);
 
         return "pages/log/log";
     }

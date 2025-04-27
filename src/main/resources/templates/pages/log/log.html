@@ -17,6 +17,38 @@
         </a>
     </div>
 
+    <!-- Filter -->
+    <div class="container">
+        <div class="my-4">
+            <form class="row g-3 align-items-center w-100" method="get" th:action="@{/log}">
+                <div class="col-md-3">
+                    <input type="text" class="form-control" name="employeeName" placeholder="Employee Nickname"
+                           th:value="${employeeNickname}">
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="form-control" name="apartmentDesc" placeholder="Apartment"
+                           th:value="${apartmentDesc}">
+                </div>
+                <div class="col-md-2">
+                    <input type="date" class="form-control" name="startDate" placeholder="Start Date"
+                           th:value="${startDate}">
+                </div>
+                <div class="col-md-2">
+                    <input type="date" class="form-control" name="endDate" placeholder="End Date"
+                           th:value="${endDate}">
+                </div>
+                <div class="col-md-2 d-flex align-items-center">
+                    <button type="submit" class="btn btn-primary me-2" title="Filter">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <a th:href="@{/log}" class="btn btn-secondary" title="Clear">
+                        <i class="fas fa-times"></i>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <table class="table table-bordered mt-3">
         <thead class="table-light">
         <tr>
