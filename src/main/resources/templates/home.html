@@ -2,11 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Worklog Home</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
-            background-color: #f4f7fa;
+            background-color: #f1f1f1;
             font-family: 'Arial', sans-serif;
         }
 
@@ -51,13 +52,6 @@
             width: 100% !important;
             height: 100% !important;
         }
-
-        .footer {
-            text-align: center;
-            margin-top: 50px;
-            color: #999;
-            padding-bottom: 20px;
-        }
     </style>
 </head>
 <body>
@@ -66,7 +60,7 @@
 
 <div class="container">
 
-    <div class="row">
+    <div class="row my-2">
 
         <!-- Pie Chart -->
         <div class="col-md-6">
@@ -81,14 +75,14 @@
         <!-- Bar and Line Charts stacked vertically -->
         <div class="col-md-6 d-flex flex-column">
 
-            <div class="card flex-fill mb-3">
+            <div class="card flex-fill mb-4">
                 <h4 class="text-center">Work Duration by Employee</h4>
                 <div class="chart-container">
                     <canvas id="employeeChart"></canvas>
                 </div>
             </div>
 
-            <div class="card flex-fill">
+            <div class="card flex-fill mb-0">
                 <h4 class="text-center">Work Logs Over Time</h4>
                 <div class="chart-container">
                     <canvas id="workLogsOverTimeChart"></canvas>
@@ -99,8 +93,8 @@
 
     </div>
 
-    <!-- Footer Fragment -->
-    <div th:replace="fragments/footer :: footer"></div>
+    <!-- Footer -->
+    <div class="footer" th:replace="fragments/footer :: footer"></div>
 
 </div>
 
