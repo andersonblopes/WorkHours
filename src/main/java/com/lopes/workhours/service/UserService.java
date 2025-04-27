@@ -2,6 +2,7 @@ package com.lopes.workhours.service;
 
 import com.lopes.workhours.domain.UserDetailsImpl;
 import com.lopes.workhours.domain.entities.User;
+import com.lopes.workhours.domain.model.UserModel;
 import com.lopes.workhours.domain.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -26,21 +27,24 @@ public class UserService implements UserDetailsService {
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = repository.findByUsername(username);
+    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+        User user = repository.findByLogin(login);
         if (user == null) {
             String message = "User  {} not found";
-            log.error(message, username);
+            log.error(message, login);
             throw new UsernameNotFoundException(message);
         }
-        return new UserDetailsImpl(user.getId(), user.getUsername(), user.getPassword(), List.of());
+        return new UserDetailsImpl(user.getId(), user.getLogin(), user.getPassword(), List.of());
     }
 
-    public void createUser(String username, String password) {
+    public void createUser(UserModel userModel) {
         // Create a new User object
         User user = new User();
-        user.setUsername(username);
-        user.setPassword(passwordEncoder.encode(password));
+        user.setName(userModel.getName());
+        user.setNickName(userModel.getNickName());
+        user.setLogin(userModel.getLogin());
+        user.setEmail(userModel.getEmail());
+        user.setPassword(passwordEncoder.encode(userModel.getPassword()));
         repository.save(user);
     }
 

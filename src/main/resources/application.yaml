@@ -1,0 +1,35 @@
+app:
+  version: @project.version@
+server:
+  port: ${APP_SERVER_PORT:8080}
+  servlet:
+    context-path: /work-logs
+spring:
+  application:
+    name: @project.name@
+  jackson:
+    deserialization:
+      fail-on-ignored-properties: true
+      fail-on-unknown-properties: true
+  datasource:
+    username: ${APP_DB_USERNAME:postgres}
+    password: ${APP_DB_PASSWORD:root}
+    url: jdbc:postgresql://${APP_DB_SERVER_URL:127.0.0.1}:${APP_DB_SERVER_PORT:5432}/${APP_DB_NAME:logs}
+  flyway:
+    placeholderPrefix: '<<'
+    placeholderSuffix: '>>'
+  data:
+    web:
+      pageable:
+        default-page-size: 10
+  jpa:
+    database: postgresql
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        jdbc:
+          time_zone: UTC
