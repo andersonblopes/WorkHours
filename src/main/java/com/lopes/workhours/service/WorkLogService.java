@@ -53,4 +53,14 @@ public class WorkLogService {
     public Page<WorkLog> findByFilter(WorkLogFilter filter, Pageable pageable) {
         return repository.findByFilter(filter, pageable);
     }
+
+    public BigDecimal sumCurrency(List<WorkLog> logs) {
+        if (logs == null || logs.isEmpty()) {
+            return BigDecimal.ZERO;
+        }
+        return logs.stream()
+                .filter(log -> log.getCurrencyValue() != null)
+                .map(WorkLog::getCurrencyValue)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
 }

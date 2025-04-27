@@ -6,6 +6,7 @@ import com.lopes.workhours.service.ApartmentService;
 import com.lopes.workhours.service.EmployeeService;
 import com.lopes.workhours.service.WorkLogService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,8 +34,10 @@ public class WorkLogController {
                           final Model model) {
 
         populateModel(model);
-        model.addAttribute("logs", service.findByFilter(filter, pageable));
+        Page<WorkLog> logPage = service.findByFilter(filter, pageable);
+        model.addAttribute("logs", logPage);
         model.addAttribute("filter", filter);
+        model.addAttribute("totalCurrency", service.sumCurrency(logPage.getContent()));
 
         return "pages/log/log";
     }
@@ -97,6 +100,7 @@ public class WorkLogController {
     private void populateModel(final Model model) {
         model.addAttribute("apartments", apartmentService.findAll());
         model.addAttribute("employees", employeeService.findAll());
+        model.addAttribute("contextPath", "/work-logs");
     }
 
 }

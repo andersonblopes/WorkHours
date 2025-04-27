@@ -1,9 +1,3 @@
-app:
-  version: @project.version@
-server:
-  port: ${APP_SERVER_PORT:8080}
-  servlet:
-    context-path: /work-logs
 spring:
   application:
     name: @project.name@
@@ -33,3 +27,10 @@ spring:
         format_sql: true
         jdbc:
           time_zone: UTC
+server:
+  port: ${APP_SERVER_PORT:8080}
+  servlet:
+    context-path: /work-logs
+  error:
+    whitelabel:
+      enabled: false

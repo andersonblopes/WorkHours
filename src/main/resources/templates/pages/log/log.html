@@ -82,6 +82,13 @@
             </td>
         </tr>
         </tbody>
+        <tfoot class="table-light">
+        <tr>
+            <td colspan="5" class="text-end"><strong>Total:</strong></td>
+            <td th:text="${#numbers.formatDecimal(totalCurrency, 1, 'POINT', 2, 'COMMA')} + ' €'"></td>
+            <td></td>
+        </tr>
+        </tfoot>
     </table>
 
     <div class="d-flex justify-content-between align-items-center">
@@ -137,6 +144,9 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+    const contextPath = /*[[${contextPath}]]*/ '';
+    //const contextPath = window.location.pathname.substring(0, window.location.pathname.indexOf('/', 1));
+
     const deleteModal = document.getElementById('deleteModal');
     deleteModal.addEventListener('show.bs.modal', function (event) {
         const button = event.relatedTarget;
@@ -147,7 +157,7 @@
         const confirmBtn = deleteModal.querySelector('#confirmDeleteBtn');
 
         entityName.textContent = name;
-        confirmBtn.href = `/log/delete/${id}`;
+        confirmBtn.href = `/work-logs/log/delete/${id}`;
     });
 </script>
 </body>
