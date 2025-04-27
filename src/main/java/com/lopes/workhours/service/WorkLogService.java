@@ -1,6 +1,7 @@
 package com.lopes.workhours.service;
 
 import com.lopes.workhours.domain.entities.WorkLog;
+import com.lopes.workhours.domain.filter.WorkLogFilter;
 import com.lopes.workhours.domain.repository.WorkLogRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -12,7 +13,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static java.util.Objects.isNull;
-import static org.springframework.util.StringUtils.hasText;
 
 @RequiredArgsConstructor
 @Service
@@ -49,18 +49,20 @@ public class WorkLogService {
         repository.deleteById(id);
     }
 
-    public List<WorkLog> getAllFiltered(String employeeNickname, String apartmentDesc, String startDate, String endDate) {
+    public List<WorkLog> getAllFiltered(final WorkLogFilter filter) {
         List<WorkLog> logs = getAll();
 
         return logs.stream()
-                .filter(log -> employeeNickname == null || log.getEmployee().getNickName().toLowerCase().contains(employeeNickname.toLowerCase()))
-                .filter(log -> apartmentDesc == null || log.getApartment().getDescription().toLowerCase().contains(apartmentDesc.toLowerCase()))
+                .filter(log -> filter.getEmployeeNickname() == null
+                        || log.getEmployee().getNickName().toLowerCase().contains(filter.getEmployeeNickname().toLowerCase()))
+                .filter(log -> filter.getApartmentDesc() == null
+                        || log.getApartment().getDescription().toLowerCase().contains(filter.getApartmentDesc().toLowerCase()))
                 .filter(log -> {
-                    if (!hasText(startDate) && !hasText(endDate)) {
+                    if (isNull(filter.getStartDate()) && isNull(filter.getEndDate())) {
                         return true;
                     }
-                    LocalDateTime date1 = LocalDateTime.parse(startDate + "T00:00:00");
-                    LocalDateTime date2 = LocalDateTime.parse(endDate + "T23:59:59");
+                    LocalDateTime date1 = LocalDateTime.parse(filter.getStartDate() + "T00:00:00");
+                    LocalDateTime date2 = LocalDateTime.parse(filter.getEndDate() + "T23:59:59");
                     return log.getExecutionDate().isAfter(date1)
                             && log.getExecutionDate().isBefore(date2);
                 })

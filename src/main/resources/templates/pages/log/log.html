@@ -23,19 +23,19 @@
             <form class="row g-3 align-items-center w-100" method="get" th:action="@{/log}">
                 <div class="col-md-3">
                     <input type="text" class="form-control" name="employeeName" placeholder="Employee Nickname"
-                           th:value="${employeeNickname}">
+                           th:value="${filter.employeeNickname}">
                 </div>
                 <div class="col-md-3">
                     <input type="text" class="form-control" name="apartmentDesc" placeholder="Apartment"
-                           th:value="${apartmentDesc}">
+                           th:value="${filter.apartmentDesc}">
                 </div>
                 <div class="col-md-2">
                     <input type="date" class="form-control" name="startDate" placeholder="Start Date"
-                           th:value="${startDate}">
+                           th:value="${filter.startDate}">
                 </div>
                 <div class="col-md-2">
                     <input type="date" class="form-control" name="endDate" placeholder="End Date"
-                           th:value="${endDate}">
+                           th:value="${filter.endDate}">
                 </div>
                 <div class="col-md-2 d-flex align-items-center">
                     <button type="submit" class="btn btn-primary me-2" title="Filter">

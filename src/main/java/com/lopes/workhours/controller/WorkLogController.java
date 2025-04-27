@@ -1,6 +1,7 @@
 package com.lopes.workhours.controller;
 
 import com.lopes.workhours.domain.entities.WorkLog;
+import com.lopes.workhours.domain.filter.WorkLogFilter;
 import com.lopes.workhours.service.ApartmentService;
 import com.lopes.workhours.service.EmployeeService;
 import com.lopes.workhours.service.WorkLogService;
@@ -24,38 +25,18 @@ public class WorkLogController {
     private final ApartmentService apartmentService;
     private final EmployeeService employeeService;
 
-//    @GetMapping()
-//    public String getLogs(final Model model) {
-//        model.addAttribute("logs", service.getAll());
-//        model.addAttribute("apartments", apartmentService.findAll());
-//        model.addAttribute("employees", employeeService.findAll());
-//
-//        return "pages/log/log";
-//    }
-
     @GetMapping
-    public String getLogs(
-            @RequestParam(value = "employeeNickname", required = false) final String employeeNickname,
-            @RequestParam(value = "apartmentDesc", required = false) final String apartmentDesc,
-            @RequestParam(value = "startDate", required = false) final String startDate,
-            @RequestParam(value = "endDate", required = false) final String endDate,
-            final Model model) {
-
-        model.addAttribute("logs", service.getAllFiltered(employeeNickname, apartmentDesc, startDate, endDate));
-        model.addAttribute("apartments", apartmentService.findAll());
-        model.addAttribute("employees", employeeService.findAll());
-        model.addAttribute("employeeNickname", employeeNickname);
-        model.addAttribute("apartmentDesc", apartmentDesc);
-        model.addAttribute("startDate", startDate);
-        model.addAttribute("endDate", endDate);
+    public String getLogs(final WorkLogFilter filter, final Model model) {
+        populateModel(model);
+        model.addAttribute("logs", service.getAllFiltered(filter));
+        model.addAttribute("filter", filter);
 
         return "pages/log/log";
     }
 
     @GetMapping("/add")
     public String add(final Model model) {
-        model.addAttribute("apartments", apartmentService.findAll());
-        model.addAttribute("employees", employeeService.findAll());
+        populateModel(model);
 
         return "pages/log/add-log";
     }
@@ -95,9 +76,8 @@ public class WorkLogController {
     @GetMapping("/edit/{id}")
     public String editEntity(@PathVariable final Long id, final Model model) {
         final var entity = service.findById(id);
+        populateModel(model);
         model.addAttribute("log", entity);
-        model.addAttribute("apartments", apartmentService.findAll());
-        model.addAttribute("employees", employeeService.findAll());
 
         return "pages/log/add-log";
     }
@@ -107,6 +87,11 @@ public class WorkLogController {
         service.deleteById(id);
 
         return "redirect:/log";
+    }
+
+    private void populateModel(final Model model) {
+        model.addAttribute("apartments", apartmentService.findAll());
+        model.addAttribute("employees", employeeService.findAll());
     }
 
 }
