@@ -10,4 +10,9 @@ public class WorkHoursApplication {
         SpringApplication.run(WorkHoursApplication.class, args);
     }
 
+    // TODO Add internationalization (EN, PT, FR, NL)
+    // TODO Add pdf,csv report
+    // TODO Add charts filters
+    // TODO Review charts - Create native queries
+
 }
