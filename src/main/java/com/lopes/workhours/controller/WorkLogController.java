@@ -6,9 +6,11 @@ import com.lopes.workhours.service.ApartmentService;
 import com.lopes.workhours.service.EmployeeService;
 import com.lopes.workhours.service.WorkLogService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,9 +28,12 @@ public class WorkLogController {
     private final EmployeeService employeeService;
 
     @GetMapping
-    public String getLogs(final WorkLogFilter filter, final Model model) {
+    public String getLogs(final @ModelAttribute WorkLogFilter filter,
+                          final Pageable pageable,
+                          final Model model) {
+
         populateModel(model);
-        model.addAttribute("logs", service.getAllFiltered(filter));
+        model.addAttribute("logs", service.findByFilter(filter, pageable));
         model.addAttribute("filter", filter);
 
         return "pages/log/log";

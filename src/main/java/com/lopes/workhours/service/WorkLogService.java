@@ -6,10 +6,11 @@ import com.lopes.workhours.domain.repository.WorkLogRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static java.util.Objects.isNull;
@@ -49,23 +50,7 @@ public class WorkLogService {
         repository.deleteById(id);
     }
 
-    public List<WorkLog> getAllFiltered(final WorkLogFilter filter) {
-        List<WorkLog> logs = getAll();
-
-        return logs.stream()
-                .filter(log -> filter.getEmployeeNickname() == null
-                        || log.getEmployee().getNickName().toLowerCase().contains(filter.getEmployeeNickname().toLowerCase()))
-                .filter(log -> filter.getApartmentDesc() == null
-                        || log.getApartment().getDescription().toLowerCase().contains(filter.getApartmentDesc().toLowerCase()))
-                .filter(log -> {
-                    if (isNull(filter.getStartDate()) && isNull(filter.getEndDate())) {
-                        return true;
-                    }
-                    LocalDateTime date1 = LocalDateTime.parse(filter.getStartDate() + "T00:00:00");
-                    LocalDateTime date2 = LocalDateTime.parse(filter.getEndDate() + "T23:59:59");
-                    return log.getExecutionDate().isAfter(date1)
-                            && log.getExecutionDate().isBefore(date2);
-                })
-                .toList();
+    public Page<WorkLog> findByFilter(WorkLogFilter filter, Pageable pageable) {
+        return repository.findByFilter(filter, pageable);
     }
 }
