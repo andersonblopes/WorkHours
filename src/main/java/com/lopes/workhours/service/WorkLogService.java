@@ -63,4 +63,5 @@ public class WorkLogService {
                 .map(WorkLog::getCurrencyValue)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
+
 }

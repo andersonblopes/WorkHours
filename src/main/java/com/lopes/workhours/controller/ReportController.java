@@ -1,0 +1,50 @@
+package com.lopes.workhours.controller;
+
+import com.lopes.workhours.domain.filter.WorkLogFilter;
+import com.lopes.workhours.service.ReportService;
+import com.lopes.workhours.utils.FileNameGenerator;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@RequiredArgsConstructor
+@Controller
+@RequestMapping("/export")
+public class ReportController {
+
+    private final ReportService service;
+
+    @GetMapping("/csv")
+    public ResponseEntity<byte[]> exportToCsv(final @ModelAttribute WorkLogFilter filter, final Pageable pageable) {
+
+        byte[] csvBytes = service.generateCSV(filter, pageable);
+
+        String filename = FileNameGenerator.generateWorkLogsFileName("csv");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename);
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+
+        return ResponseEntity.ok().headers(headers).body(csvBytes);
+    }
+
+
+    @GetMapping("/pdf")
+    public ResponseEntity<byte[]> exportPdf(final @ModelAttribute WorkLogFilter filter, final Pageable pageable) {
+
+        byte[] pdfBytes = service.generatePdf(filter, pageable);
+
+        String filename = FileNameGenerator.generateWorkLogsFileName("pdf");
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdfBytes);
+    }
+}

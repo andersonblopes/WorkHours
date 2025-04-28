@@ -42,7 +42,7 @@
                     <button type="submit" class="btn btn-primary me-2" title="Filter">
                         <i class="fas fa-search"></i>
                     </button>
-                    <a th:href="@{/log}" class="btn btn-secondary" title="Clear">
+                    <a th:href="@{/log}" class="btn btn-secondary me-2" title="Clear">
                         <i class="fas fa-times"></i>
                     </a>
                 </div>
@@ -58,7 +58,7 @@
             <th>Duration</th>
             <th>Apartment</th>
             <th>Employee</th>
-            <th>Value</th>
+            <th class="text-center">Value</th>
             <th class="text-center">Actions</th>
         </tr>
         </thead>
@@ -69,7 +69,8 @@
             <td th:text="${log.duration}"></td>
             <td th:text="${log.apartment.descriptionFormated()}"></td>
             <td th:text="${log.employee.nickName}"></td>
-            <td th:text="${#numbers.formatDecimal(log.currencyValue, 1, 'POINT', 2, 'COMMA')} + ' €'"></td>
+            <td class="text-end"
+                th:text="${#numbers.formatDecimal(log.currencyValue, 1, 'POINT', 2, 'COMMA')} + ' €'"></td>
             <td class="text-center">
                 <a class="text-warning me-2" th:href="@{|/log/edit/${log.id}|}">
                     <i class="fas fa-edit"></i>
@@ -85,8 +86,28 @@
         </tbody>
         <tfoot class="table-light">
         <tr>
-            <td colspan="5" class="text-end"><strong>Total:</strong></td>
-            <td th:text="${#numbers.formatDecimal(totalCurrency, 1, 'POINT', 2, 'COMMA')} + ' €'"></td>
+            <td colspan="4">
+                <div class="d-flex">
+                    <a th:href="@{/export/csv(
+        employeeNickname=${filter.employeeNickname},
+        apartmentDesc=${filter.apartmentDesc},
+        startDate=${filter.startDate},
+        endDate=${filter.endDate})}"
+                       class="btn btn-success btn-sm me-2" title="Export CSV">
+                        <i class="fas fa-file-csv"></i> Export CSV
+                    </a>
+                    <a th:href="@{/export/pdf(
+        employeeNickname=${filter.employeeNickname},
+        apartmentDesc=${filter.apartmentDesc},
+        startDate=${filter.startDate},
+        endDate=${filter.endDate})}"
+                       class="btn btn-danger btn-sm" title="Export PDF">
+                        <i class="fas fa-file-pdf"></i> Export PDF
+                    </a>
+                </div>
+            </td>
+            <td class="text-end"><strong>Total:</strong></td>
+            <td class="text-end" th:text="${#numbers.formatDecimal(totalCurrency, 1, 'POINT', 2, 'COMMA')} + ' €'"></td>
             <td></td>
         </tr>
         </tfoot>
