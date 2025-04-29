@@ -66,7 +66,7 @@
                         aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <span th:text="#{app.confirm.delete}">Are you sure you want to delete <strong
+                <span id="deleteMessage" th:utext="#{app.confirm.delete('')}">Are you sure you want to delete <strong
                         id="entityName"></strong>?</span>
             </div>
             <div class="modal-footer">

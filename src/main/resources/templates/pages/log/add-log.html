@@ -41,7 +41,7 @@
                     <div class="col-md-4">
                         <label for="apartmentId" class="form-label">Apartment</label>
                         <select class="form-select" id="apartmentId" name="apartmentId" required>
-                            <option value="" th:text="#{app.lbl.select_apartment}">Select an apartment</option>
+                            <option value="" th:text="#{app.lbl.select}">Select an apartment</option>
                             <option th:each="apartment : ${apartments}"
                                     th:value="${apartment.id}"
                                     th:text="${apartment.descriptionFormated()}"
