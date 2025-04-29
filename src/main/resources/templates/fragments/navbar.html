@@ -1,34 +1,49 @@
-<!-- src/main/resources/templates/fragments/navbar.html -->
 <div th:fragment="navbar">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="d-flex align-items-center ms-3">
+            <!-- Language selector on the left side -->
+            <form class="d-flex me-3">
+                <select class="form-select form-select-sm" onchange="changeLanguage(this)"
+                        aria-label="Language selector">
+                    <option value="en" th:selected="${#locale.language == 'en'}" th:text="#{app.lang.en}">English
+                    </option>
+                    <option value="es" th:selected="${#locale.language == 'es'}" th:text="#{app.lang.es}">Español
+                    </option>
+                    <option value="fr" th:selected="${#locale.language == 'fr'}" th:text="#{app.lang.fr}">Français
+                    </option>
+                    <option value="nl" th:selected="${#locale.language == 'nl'}" th:text="#{app.lang.nl}">Nederlands
+                    </option>
+                    <option value="pt" th:selected="${#locale.language == 'pt'}" th:text="#{app.lang.pt}">Português
+                    </option>
+                </select>
+            </form>
+        </div>
+
         <div class="container">
-            <a class="navbar-brand" th:href="@{/home}">Work logs App</a>
+            <a class="navbar-brand" th:href="@{/home}" th:text="#{app.title}">Work logs App</a>
+
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/log}">Log</a>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/log}" th:text="#{menu.log}">Log</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/employee}"
+                                            th:text="#{menu.employee}">Employee</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/owner}" th:text="#{menu.owner}">Owner</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/build}" th:text="#{menu.build}">Build</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/apartment}" th:text="#{menu.apartment}">Apartment</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/employee}">Employee</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/owner}">Owner</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/build}">Build</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/apartment}">Apartment</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-danger  " th:href="@{/logout}">Logout</a>
+                    <li class="nav-item"><a class="nav-link text-danger" th:href="@{/logout}" th:text="#{menu.logout}">Logout</a>
                     </li>
                 </ul>
             </div>
         </div>
+
+        <script th:src="@{/js/language-switcher.js}"></script>
     </nav>
 </div>
