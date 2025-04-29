@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Add Worklog</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <meta charset="UTF-8">
+    <title th:text="${log?.id != null} ? #{app.log.edit(${log?.id})} : #{app.log.add}">Add Worklog</title>
 </head>
 <body>
 <!-- Include the Navbar Fragment -->
@@ -12,9 +11,8 @@
 <div class="container my-5">
     <div class="card shadow-sm rounded-3">
         <div class="card-body">
-            <h2 class="card-title mb-4" th:text="${log?.id != null} ? 'Edit Log' : 'Add Log'">Add
-                log</h2>
-
+            <h2 class="card-title mb-4"
+                th:text="${log?.id != null} ? #{app.log.edit(${log?.id})} : #{app.log.add}">Add log</h2>
             <form th:action="@{/log/save}" method="post">
                 <div class="row g-3">
 
@@ -22,15 +20,16 @@
                     <input type="hidden" name="id" th:value="${log?.id}">
 
                     <div class="col-md-3">
-                        <label for="executionDate" class="form-label">Execution date</label>
+                        <label for="executionDate" class="form-label" th:text="#{app.lbl.execution_date}">Execution
+                            date</label>
                         <input type="datetime-local" class="form-control" id="executionDate" name="executionDate"
                                required th:value="${log?.executionDate}">
                     </div>
 
                     <div class="col-md-3">
-                        <label for="employeeId" class="form-label">Employee</label>
+                        <label for="employeeId" class="form-label" th:text="#{app.lbl.employee}">Employee</label>
                         <select class="form-select" id="employeeId" name="employeeId" required>
-                            <option value="">Select an employee</option>
+                            <option value="" th:text="#{app.lbl.select}">Select</option>
                             <option th:each="employee : ${employees}"
                                     th:value="${employee.id}"
                                     th:text="${employee.name}"
@@ -42,7 +41,7 @@
                     <div class="col-md-4">
                         <label for="apartmentId" class="form-label">Apartment</label>
                         <select class="form-select" id="apartmentId" name="apartmentId" required>
-                            <option value="">Select an apartment</option>
+                            <option value="" th:text="#{app.lbl.select_apartment}">Select an apartment</option>
                             <option th:each="apartment : ${apartments}"
                                     th:value="${apartment.id}"
                                     th:text="${apartment.descriptionFormated()}"
@@ -52,19 +51,19 @@
                     </div>
 
                     <div class="col-md-2">
-                        <label for="duration" class="form-label">Duration</label>
+                        <label for="duration" class="form-label" th:text="#{app.lbl.duration}">Duration</label>
                         <input type="text" class="form-control" id="duration" name="duration" required
                                th:value="${log?.duration}">
                     </div>
 
                     <div class="col-md-12">
-                        <label for="notes" class="form-label">Notes</label>
+                        <label for="notes" class="form-label" th:text="#{app.lbl.notes}">Notes</label>
                         <textarea class="form-control" id="notes" name="notes" th:text="${log?.notes}"></textarea>
                     </div>
 
                     <div class="col-12 d-flex justify-content-end gap-2 mt-4">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                        <a class="btn btn-secondary" th:href="@{/log}">Cancel</a>
+                        <button type="submit" class="btn btn-primary" th:text="#{app.lbl.save}">Submit</button>
+                        <a class="btn btn-secondary" th:href="@{/log}" th:text="#{app.lbl.cancel}">Cancel</a>
                     </div>
                 </div>
             </form>

@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <title>Owners</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta charset="UTF-8">
+    <title th:text="#{app.lbl.owners}">Owners</title>
 </head>
 <body>
 <!-- Include the Navbar Fragment -->
@@ -12,22 +10,23 @@
 
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mt-5">
-        <h2 class="mb-0">Owners</h2>
+        <h2 class="mb-0" th:text="#{app.lbl.owners}">Owners</h2>
         <a class="text-primary" th:href="@{/owner/add}">
-            <i class="fas fa-plus-circle"></i> Add
+            <i class="fas fa-plus-circle"></i>
+            <span th:text="#{app.lbl.new}">Add</span>
         </a>
     </div>
 
     <table class="table table-bordered mt-3">
         <thead class="table-light">
         <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Nickname</th>
-            <th>Email</th>
-            <th>Phone number</th>
-            <th>User</th>
-            <th class="text-center">Actions</th>
+            <th th:text="#{app.lbl.id}">ID</th>
+            <th th:text="#{app.lbl.name}">Name</th>
+            <th th:text="#{app.lbl.nickname}">Nickname</th>
+            <th th:text="#{app.lbl.email}">Email</th>
+            <th th:text="#{app.lbl.phone}">Phone number</th>
+            <th th:text="#{app.lbl.user}">User</th>
+            <th class="text-center" th:text="#{app.lbl.actions}">Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -39,10 +38,13 @@
             <td th:text="${owner.phoneNumber}"></td>
             <td th:text="${owner.user.nickName}"></td>
             <td class="text-center">
-                <a class="text-warning me-2" th:href="@{|/owner/edit/${owner.id}|}">
+                <a
+                        th:title="#{app.lbl.edit}"
+                        class="text-warning me-2" th:href="@{|/owner/edit/${owner.id}|}">
                     <i class="fas fa-edit"></i>
                 </a>
-                <a href="#" class="text-danger"
+                <a th:title="#{app.lbl.delete}"
+                   href="#" class="text-danger"
                    data-bs-toggle="modal"
                    data-bs-target="#deleteModal"
                    th:attr="data-id=${owner.id}, data-name=${owner.name}">
@@ -62,16 +64,20 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-danger text-white">
-                <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+                <h5 class="modal-title" id="deleteModalLabel" th:text="#{app.confirm.delete.header}">Confirm
+                    Deletion</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                         aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Are you sure you want to delete <strong id="entityName"></strong>?
+                <span th:text="#{app.confirm.delete}">Are you sure you want to delete <strong
+                        id="entityName"></strong>?</span>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <a id="confirmDeleteBtn" class="btn btn-danger">Delete</a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" th:text="#{app.lbl.cancel}">
+                    Cancel
+                </button>
+                <a id="confirmDeleteBtn" class="btn btn-danger" th:text="#{app.lbl.delete}">Delete</a>
             </div>
         </div>
     </div>

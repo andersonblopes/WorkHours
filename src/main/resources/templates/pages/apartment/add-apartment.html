@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title th:text="${apartment?.id != null} ? 'Edit Apartment' : 'Add Apartment'">Apartment Form</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <meta charset="UTF-8">
+    <title th:text="${apartment?.id != null} ? #{app.build.edit(${apartment?.id})} : #{app.build.add}">Add
+        Apartments</title>
 </head>
 <body>
 
@@ -12,32 +12,30 @@
 <div class="container my-5">
     <div class="card shadow-sm rounded-3">
         <div class="card-body">
-            <h2 class="card-title mb-4" th:text="${apartment?.id != null} ? 'Edit Apartment' : 'Add Apartment'">Add
+            <h2 class="mb-4"
+                th:text="${apartment?.id != null} ? #{app.build.edit(${apartment?.id})} : #{app.build.add}">Add
                 Apartment</h2>
-
             <form th:action="@{/apartment/save}" method="post">
                 <input type="hidden" name="id" th:value="${apartment?.id}"/>
 
                 <div class="row g-3">
 
                     <div class="col-md-6">
-                        <label for="description" class="form-label">Description</label>
+                        <label for="description" class="form-label" th:text="#{app.lbl.description}">Description</label>
                         <input type="text" class="form-control" id="description" name="description" required
                                th:value="${apartment?.description}">
                     </div>
 
                     <div class="col-md-6">
-                        <label for="accessCode" class="form-label">Access Code</label>
+                        <label for="accessCode" class="form-label" th:text="#{app.lbl.access_code}">Access Code</label>
                         <input type="text" class="form-control" id="accessCode" name="accessCode"
                                th:value="${apartment?.accessCode}">
                     </div>
 
                     <div class="col-md-4">
-                        <label for="durationType" class="form-label">Duration</label>
+                        <label for="durationType" class="form-label" th:text="#{app.lbl.duration}">Duration</label>
                         <select class="form-select" id="durationType" name="durationType" required>
-                            <option value="" disabled th:selected="${apartment?.durationType == null}">Select a
-                                duration
-                            </option>
+                            <option value="" th:text="#{app.lbl.select}">Select</option>
                             <option th:each="duration : ${durationTypes}"
                                     th:value="${duration.name()}"
                                     th:text="${durationDescriptions[duration.name()]}"
@@ -47,15 +45,15 @@
                     </div>
 
                     <div class="col-md-4">
-                        <label for="currencyValue" class="form-label">Currency Value</label>
+                        <label for="currencyValue" class="form-label" th:text="#{app.lbl.value}">Currency Value</label>
                         <input type="text" class="form-control" id="currencyValue" name="currencyValue"
                                th:value="${apartment?.currencyValue}">
                     </div>
 
                     <div class="col-md-4">
-                        <label for="buildId" class="form-label">Build</label>
+                        <label for="buildId" class="form-label" th:text="#{app.lbl.build}">Build</label>
                         <select class="form-select" id="buildId" name="buildId" required>
-                            <option value="">Select a build</option>
+                            <option value="" th:text="#{app.lbl.select}">Select</option>
                             <option th:each="build : ${builds}"
                                     th:value="${build.id}"
                                     th:text="${build.description}"
@@ -65,8 +63,9 @@
                     </div>
 
                     <div class="col-12 d-flex justify-content-end gap-2 mt-4">
-                        <button type="submit" class="btn btn-primary">Save</button>
-                        <a class="btn btn-outline-secondary" th:href="@{/apartment}">Cancel</a>
+                        <button type="submit" class="btn btn-primary" th:text="#{app.lbl.save}">Save</button>
+                        <a class="btn btn-secondary" th:href="@{/apartment}"
+                           th:text="#{app.lbl.cancel}">Cancel</a>
                     </div>
 
                 </div>

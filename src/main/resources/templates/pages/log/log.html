@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <title>Work Logs</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta charset="UTF-8">
+    <title th:text="#{app.lbl.hours}">Work Logs</title>
 </head>
 <body>
 <!-- Include the Navbar Fragment -->
@@ -12,22 +10,27 @@
 
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mt-5">
-        <h2 class="mb-0">Work hours</h2>
+        <h2 class="mb-0" th:text="#{app.lbl.hours}">Work hours</h2>
         <a class="text-primary" th:href="@{/log/add}">
-            <i class="fas fa-plus-circle"></i> Add
+            <i class="fas fa-plus-circle"></i>
+            <span th:text="#{app.lbl.new}">New</span>
         </a>
     </div>
+
 
     <!-- Filter -->
     <div class="container">
         <div class="my-4">
             <form class="row g-3 align-items-center w-100" method="get" th:action="@{/log}">
                 <div class="col-md-3">
-                    <input type="text" class="form-control" name="employeeNickname" placeholder="Employee Nickname"
+                    <input type="text" class="form-control" name="employeeNickname"
+                           th:placeholder="#{app.lbl.nickname}"
                            th:value="${filter.employeeNickname}">
                 </div>
+
                 <div class="col-md-3">
-                    <input type="text" class="form-control" name="apartmentDesc" placeholder="Apartment"
+                    <input type="text" class="form-control" name="apartmentDesc"
+                           th:placeholder="#{app.lbl.apartment}"
                            th:value="${filter.apartmentDesc}">
                 </div>
                 <div class="col-md-2">
@@ -39,10 +42,10 @@
                            th:value="${filter.endDate}">
                 </div>
                 <div class="col-md-2 d-flex align-items-center">
-                    <button type="submit" class="btn btn-primary me-2" title="Filter">
+                    <button type="submit" class="btn btn-primary me-2" th:title="#{app.lbl.search}">
                         <i class="fas fa-search"></i>
                     </button>
-                    <a th:href="@{/log}" class="btn btn-secondary me-2" title="Clear">
+                    <a th:href="@{/log}" class="btn btn-secondary me-2" th:title="#{app.lbl.clean}">
                         <i class="fas fa-times"></i>
                     </a>
                 </div>
@@ -53,13 +56,13 @@
     <table class="table table-bordered mt-3">
         <thead class="table-light">
         <tr>
-            <th>ID</th>
-            <th>Execution date</th>
-            <th>Duration</th>
-            <th>Apartment</th>
-            <th>Employee</th>
-            <th class="text-center">Value</th>
-            <th class="text-center">Actions</th>
+            <th th:text="#{app.lbl.id}">ID</th>
+            <th th:text="#{app.lbl.execution_date}">Execution date</th>
+            <th th:text="#{app.lbl.duration}">Duration</th>
+            <th th:text="#{app.lbl.apartment}">Apartment</th>
+            <th th:text="#{app.lbl.employee}">Employee</th>
+            <th class="text-center" th:text="#{app.lbl.value}">Value</th>
+            <th class="text-center" th:text="#{app.lbl.actions}">Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -72,10 +75,12 @@
             <td class="text-end"
                 th:text="${#numbers.formatDecimal(log.currencyValue, 1, 'POINT', 2, 'COMMA')} + ' €'"></td>
             <td class="text-center">
-                <a class="text-warning me-2" th:href="@{|/log/edit/${log.id}|}">
+                <a th:title="#{app.lbl.edit}"
+                   class="text-warning me-2" th:href="@{|/log/edit/${log.id}|}">
                     <i class="fas fa-edit"></i>
                 </a>
-                <a href="#" class="text-danger"
+                <a th:title="#{app.lbl.delete}"
+                   href="#" class="text-danger"
                    data-bs-toggle="modal"
                    data-bs-target="#deleteModal"
                    th:attr="data-id=${log.id}, data-name=${log.id}">
@@ -94,7 +99,8 @@
         startDate=${filter.startDate},
         endDate=${filter.endDate})}"
                        class="btn btn-success btn-sm me-2" title="Export CSV">
-                        <i class="fas fa-file-csv"></i> Export CSV
+                        <i class="fas fa-file-csv"></i>
+                        <span th:text="#{app.lbl.export_csv}">Export CSV</span>
                     </a>
                     <a th:href="@{/export/pdf(
         employeeNickname=${filter.employeeNickname},
@@ -102,11 +108,12 @@
         startDate=${filter.startDate},
         endDate=${filter.endDate})}"
                        class="btn btn-danger btn-sm" title="Export PDF">
-                        <i class="fas fa-file-pdf"></i> Export PDF
+                        <i class="fas fa-file-pdf"></i>
+                        <span th:text="#{app.lbl.export_pd}">Export PDF</span>
                     </a>
                 </div>
             </td>
-            <td class="text-end"><strong>Total:</strong></td>
+            <td class="text-end" th:text="#{app.lbl.total}"><strong>Total:</strong></td>
             <td class="text-end" th:text="${#numbers.formatDecimal(totalCurrency, 1, 'POINT', 2, 'COMMA')} + ' €'"></td>
             <td></td>
         </tr>
@@ -114,9 +121,7 @@
     </table>
 
     <div class="d-flex justify-content-between align-items-center">
-        <div>
-            Page <span th:text="${logs.number + 1}"></span> of <span th:text="${logs.totalPages}"></span>
-        </div>
+        <div th:text="#{app.pagination(${logs.number + 1}, ${logs.totalPages})}">Page 1 of 5</div>
         <div>
             <nav>
                 <ul class="pagination mb-0">
@@ -148,16 +153,20 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-danger text-white">
-                <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+                <h5 class="modal-title" id="deleteModalLabel" th:text="#{app.confirm.delete.header}">Confirm
+                    Deletion</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                         aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Are you sure you want to delete <strong id="entityName"></strong>?
+                <span th:text="#{app.confirm.delete}">Are you sure you want to delete <strong
+                        id="entityName"></strong>?</span>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <a id="confirmDeleteBtn" class="btn btn-danger">Delete</a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" th:text="#{app.lbl.cancel}">
+                    Cancel
+                </button>
+                <a id="confirmDeleteBtn" class="btn btn-danger" th:text="#{app.lbl.delete}">Delete</a>
             </div>
         </div>
     </div>
