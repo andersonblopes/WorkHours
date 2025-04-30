@@ -36,19 +36,20 @@ public class BuildController {
 
     @PostMapping("/save")
     public String saveEntity(
+            @RequestParam(value = "id", required = false) final Long id,
             @RequestParam("description") final String description,
             @RequestParam("address") final String address,
             @RequestParam("accessCode") final String accessCode,
             @RequestParam("ownerId") final Long ownerId) {
 
-        final var owner = Build.builder()
-                .description(description)
-                .address(address)
-                .accessCode(accessCode)
-                .owner(ownerService.findById(ownerId))
-                .build();
+        final var build = (id != null) ? service.findById(id) : new Build();
 
-        service.save(owner);
+        build.setDescription(description);
+        build.setAddress(address);
+        build.setAccessCode(accessCode);
+        build.setOwner(ownerService.findById(ownerId));
+
+        service.save(build);
 
         return "redirect:/build";
     }

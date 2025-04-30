@@ -38,19 +38,20 @@ public class OwnerController {
 
     @PostMapping("/owner/save")
     public String save(
+            @RequestParam(value = "id", required = false) final Long id,
             @RequestParam("name") String name,
             @RequestParam(value = "nickName", required = false) String nickName,
             @RequestParam("phoneNumber") String phoneNumber,
             @RequestParam("email") String email,
             @RequestParam(value = "userId", required = false) Long userId) {
 
-        Owner owner = Owner.builder()
-                .name(name)
-                .nickName(nickName)
-                .phoneNumber(phoneNumber)
-                .email(email)
-                .user(userService.findById(userId))
-                .build();
+        final var owner = (id != null) ? service.findById(id) : new Owner();
+
+        owner.setName(name);
+        owner.setNickName(nickName);
+        owner.setPhoneNumber(phoneNumber);
+        owner.setEmail(email);
+        owner.setUser(userService.findById(userId));
 
         service.save(owner);
 

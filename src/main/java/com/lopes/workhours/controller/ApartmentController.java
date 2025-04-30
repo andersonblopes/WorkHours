@@ -61,15 +61,7 @@ public class ApartmentController {
             @RequestParam("buildId") final Long buildId,
             @RequestParam("durationType") final DurationType durationType) {
 
-        final Apartment apartment;
-
-        if (id != null) {
-            // EDIT: Find the existing apartment
-            apartment = service.findById(id);
-        } else {
-            // ADD: Create a new one
-            apartment = new Apartment();
-        }
+        final var apartment = (id != null) ? service.findById(id) : new Apartment();
 
         apartment.setDescription(description);
         apartment.setAccessCode(accessCode);

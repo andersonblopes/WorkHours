@@ -61,13 +61,7 @@ public class WorkLogController {
         final var apartment = apartmentService.findById(apartmentId);
         final var employee = employeeService.findById(employeeId);
 
-        final WorkLog log;
-
-        if (id != null) {
-            log = service.findById(id);
-        } else {
-            log = new WorkLog();
-        }
+        final var log = (id != null) ? service.findById(id) : new WorkLog();
 
         log.setExecutionDate(executionDate);
         log.setDuration(duration);

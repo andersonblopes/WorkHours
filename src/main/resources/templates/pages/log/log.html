@@ -68,7 +68,7 @@
         <tbody>
         <tr th:each="log : ${logs.content}">
             <td th:text="${log.id}"></td>
-            <td th:text="${log.executionDate}"></td>
+            <td th:text="${#temporals.format(log.executionDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
             <td th:text="${log.duration}"></td>
             <td th:text="${log.apartment.descriptionFormated()}"></td>
             <td th:text="${log.employee.nickName}"></td>
