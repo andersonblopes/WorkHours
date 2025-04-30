@@ -11,7 +11,7 @@ spring:
   datasource:
     username: ${APP_DB_USERNAME:postgres}
     password: ${APP_DB_PASSWORD:root}
-    url: ${APP_DB_SERVER_URL:jdbc:postgresql://127.0.0.1:5432/logs}
+    url: jdbc:postgresql://${APP_DB_SERVER_URL:127.0.0.1:5432/logs2}
   flyway:
     placeholderPrefix: '<<'
     placeholderSuffix: '>>'
