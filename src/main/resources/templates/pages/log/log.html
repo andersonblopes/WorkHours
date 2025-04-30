@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title th:text="#{app.lbl.hours}">Work Logs</title>
@@ -22,41 +22,41 @@
         <div class="my-4">
             <form class="row g-3 align-items-center w-100" method="get" th:action="@{/log}">
                 <div class="col-md-3">
-                    <input type="text" class="form-control" name="employeeNickname"
-                           th:placeholder="#{app.lbl.nickname}"
-                           th:value="${filter.employeeNickname}">
+                    <input class="form-control" name="employee" th:placeholder="#{app.lbl.employee}"
+                           th:value="${filter.employee}"
+                           type="text">
                 </div>
 
                 <div class="col-md-3">
-                    <input type="text" class="form-control" name="apartmentDesc"
-                           th:placeholder="#{app.lbl.apartment}"
-                           th:value="${filter.apartmentDesc}">
+                    <input class="form-control" name="description" th:placeholder="#{app.lbl.apartment}"
+                           th:value="${filter.description}"
+                           type="text">
                 </div>
                 <div class="col-md-2">
-                    <input type="date" class="form-control" name="startDate" placeholder="Start Date"
-                           th:value="${filter.startDate}">
+                    <input class="form-control" name="startDate" placeholder="Start Date" th:value="${filter.startDate}"
+                           type="date">
                 </div>
                 <div class="col-md-2">
-                    <input type="date" class="form-control" name="endDate" placeholder="End Date"
-                           th:value="${filter.endDate}">
+                    <input class="form-control" name="endDate" placeholder="End Date" th:value="${filter.endDate}"
+                           type="date">
                 </div>
 
                 <!-- New: size selection dropdown -->
                 <div class="col-md-1">
                     <select class="form-select" name="size" onchange="this.form.submit()">
-                        <option th:value="5" th:selected="${logs.size == 5}">5</option>
-                        <option th:value="10" th:selected="${logs.size == 10}">10</option>
-                        <option th:value="25" th:selected="${logs.size == 25}">25</option>
-                        <option th:value="50" th:selected="${logs.size == 50}">50</option>
-                        <option th:value="100" th:selected="${logs.size == 100}">100</option>
+                        <option th:selected="${logs.size == 5}" th:value="5">5</option>
+                        <option th:selected="${logs.size == 10}" th:value="10">10</option>
+                        <option th:selected="${logs.size == 25}" th:value="25">25</option>
+                        <option th:selected="${logs.size == 50}" th:value="50">50</option>
+                        <option th:selected="${logs.size == 100}" th:value="100">100</option>
                     </select>
                 </div>
 
                 <div class="col-md-1 d-flex align-items-center">
-                    <button type="submit" class="btn btn-primary me-2" th:title="#{app.lbl.search}">
+                    <button class="btn btn-primary me-2" th:title="#{app.lbl.search}" type="submit">
                         <i class="fas fa-search"></i>
                     </button>
-                    <a th:href="@{/log}" class="btn btn-secondary me-2" th:title="#{app.lbl.clean}">
+                    <a class="btn btn-secondary me-2" th:href="@{/log}" th:title="#{app.lbl.clean}">
                         <i class="fas fa-times"></i>
                     </a>
                 </div>
@@ -86,15 +86,15 @@
             <td class="text-end"
                 th:text="${#numbers.formatDecimal(log.currencyValue, 1, 'POINT', 2, 'COMMA')} + ' €'"></td>
             <td class="text-center">
-                <a th:title="#{app.lbl.edit}"
-                   class="text-warning me-2" th:href="@{|/log/edit/${log.id}|}">
+                <a class="text-warning me-2"
+                   th:href="@{|/log/edit/${log.id}|}" th:title="#{app.lbl.edit}">
                     <i class="fas fa-edit"></i>
                 </a>
-                <a th:title="#{app.lbl.delete}"
-                   href="#" class="text-danger"
-                   data-bs-toggle="modal"
-                   data-bs-target="#deleteModal"
-                   th:attr="data-id=${log.id}, data-name=${log.id}">
+                <a class="text-danger"
+                   data-bs-target="#deleteModal" data-bs-toggle="modal"
+                   href="#"
+                   th:attr="data-id=${log.id}, data-name=${log.id}"
+                   th:title="#{app.lbl.delete}">
                     <i class="fas fa-trash-alt"></i>
                 </a>
             </td>
@@ -104,21 +104,21 @@
         <tr>
             <td colspan="4">
                 <div class="d-flex">
-                    <a th:href="@{/export/csv(
-    employeeNickname=${filter.employeeNickname},
-    apartmentDesc=${filter.apartmentDesc},
+                    <a class="btn btn-success btn-sm me-2"
+                       th:href="@{/export/csv(
+    employee=${filter.employee},
+    description=${filter.description},
     startDate=${filter.startDate},
-    endDate=${filter.endDate})}"
-                       class="btn btn-success btn-sm me-2" th:title="#{app.lbl.export_csv}">
+    endDate=${filter.endDate})}" th:title="#{app.lbl.export_csv}">
                         <i class="fas fa-file-csv"></i>
                         <span th:text="#{app.lbl.export_csv}">Export CSV</span>
                     </a>
-                    <a th:href="@{/export/pdf(
-    employeeNickname=${filter.employeeNickname},
-    apartmentDesc=${filter.apartmentDesc},
+                    <a class="btn btn-danger btn-sm"
+                       th:href="@{/export/pdf(
+    employee=${filter.employee},
+    description=${filter.description},
     startDate=${filter.startDate},
-    endDate=${filter.endDate})}"
-                       class="btn btn-danger btn-sm" th:title="#{app.lbl.export_pdf}">
+    endDate=${filter.endDate})}" th:title="#{app.lbl.export_pdf}">
                         <i class="fas fa-file-pdf"></i>
                         <span th:text="#{app.lbl.export_pdf}">Export PDF</span>
                     </a>
@@ -138,15 +138,15 @@
                 <ul class="pagination mb-0">
                     <li class="page-item" th:classappend="${logs.first} ? 'disabled'">
                         <a class="page-link" th:href="@{/log(page=${logs.number - 1}, size=${logs.size},
-                        employeeNickname=${filter.employeeNickname},
-                        apartmentDesc=${filter.apartmentDesc},
+                 employee=${filter.employee},
+    description=${filter.description},
                         startDate=${filter.startDate},
                         endDate=${filter.endDate})}">&laquo;</a>
                     </li>
                     <li class="page-item" th:classappend="${logs.last} ? 'disabled'">
                         <a class="page-link" th:href="@{/log(page=${logs.number + 1}, size=${logs.size},
-                        employeeNickname=${filter.employeeNickname},
-                        apartmentDesc=${filter.apartmentDesc},
+          employee=${filter.employee},
+    description=${filter.description},
                         startDate=${filter.startDate},
                         endDate=${filter.endDate})}">&raquo;</a>
                     </li>
@@ -161,24 +161,24 @@
 </div>
 
 <!-- Delete Confirmation Modal -->
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+<div aria-hidden="true" aria-labelledby="deleteModalLabel" class="modal fade" id="deleteModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-danger text-white">
                 <h5 class="modal-title" id="deleteModalLabel" th:text="#{app.confirm.delete.header}">Confirm
                     Deletion</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
+                <button aria-label="Close" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        type="button"></button>
             </div>
             <div class="modal-body">
                 <span id="deleteMessage" th:utext="#{app.confirm.delete('')}">Are you sure you want to delete <strong
                         id="entityName"></strong>?</span>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" th:text="#{app.lbl.cancel}">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" th:text="#{app.lbl.cancel}" type="button">
                     Cancel
                 </button>
-                <a id="confirmDeleteBtn" class="btn btn-danger" th:text="#{app.lbl.delete}">Delete</a>
+                <a class="btn btn-danger" id="confirmDeleteBtn" th:text="#{app.lbl.delete}">Delete</a>
             </div>
         </div>
     </div>

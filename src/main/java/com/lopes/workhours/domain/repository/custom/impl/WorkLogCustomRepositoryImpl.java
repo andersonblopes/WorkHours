@@ -39,6 +39,7 @@ public class WorkLogCustomRepositoryImpl implements WorkLogCustomRepository {
                  WorkLog e
                  INNER JOIN FETCH e.employee employee
                  INNER JOIN FETCH e.apartment apartment
+                 INNER JOIN FETCH apartment.build build
                  INNER JOIN FETCH e.user user
                 """);
 
@@ -89,6 +90,7 @@ public class WorkLogCustomRepositoryImpl implements WorkLogCustomRepository {
                  WorkLog e
                  INNER JOIN e.employee employee
                  INNER JOIN e.apartment apartment
+                 INNER JOIN apartment.build build
                  INNER JOIN e.user user
                 """);
 
@@ -110,12 +112,24 @@ public class WorkLogCustomRepositoryImpl implements WorkLogCustomRepository {
     private String mountWhere(WorkLogFilter filter) {
         final StringBuilder where = new StringBuilder(" WHERE 1=1 ");
 
-        if (hasText(filter.getEmployeeNickname())) {
-            where.append(" AND CAST(UNACCENT(UPPER(employee.nickName)) AS String) LIKE CAST(UNACCENT(UPPER(CONCAT('%', :employeeNickname, '%'))) AS String) ");
+        if (hasText(filter.getEmployee())) {
+            where.append("""
+                    AND (
+                        CAST(UNACCENT(UPPER(employee.nickName)) AS STRING) LIKE CAST(UNACCENT(UPPER(CONCAT('%', :employeeDesc, '%'))) AS STRING)
+                        OR
+                        CAST(UNACCENT(UPPER(employee.name)) AS STRING) LIKE CAST(UNACCENT(UPPER(CONCAT('%', :employeeDesc, '%'))) AS STRING)
+                    )
+                    """);
         }
 
-        if (hasText(filter.getApartmentDesc())) {
-            where.append(" AND CAST(UNACCENT(UPPER(apartment.description)) AS String) LIKE CAST(UNACCENT(UPPER(CONCAT('%', :apartmentDesc, '%'))) AS String) ");
+        if (hasText(filter.getDescription())) {
+            where.append("""
+                    AND (
+                            CAST(UNACCENT(UPPER(build.description)) AS STRING) LIKE CAST(UNACCENT(UPPER(CONCAT('%', :description, '%'))) AS STRING)
+                            OR
+                            CAST(UNACCENT(UPPER(apartment.description)) AS STRING) LIKE CAST(UNACCENT(UPPER(CONCAT('%', :description, '%'))) AS STRING)
+                        )
+                    """);
         }
 
         if (nonNull(filter.getStartDate()) && nonNull(filter.getEndDate())) {
@@ -140,12 +154,12 @@ public class WorkLogCustomRepositoryImpl implements WorkLogCustomRepository {
             query.setParameter("endDate", LocalDateTime.parse(filter.getEndDate() + "T23:59:59"));
         }
 
-        if (hasText(filter.getEmployeeNickname())) {
-            query.setParameter("employeeNickname", filter.getEmployeeNickname());
+        if (hasText(filter.getEmployee())) {
+            query.setParameter("employeeDesc", filter.getEmployee());
         }
 
-        if (hasText(filter.getApartmentDesc())) {
-            query.setParameter("apartmentDesc", filter.getApartmentDesc());
+        if (hasText(filter.getDescription())) {
+            query.setParameter("description", filter.getDescription());
         }
     }
 }

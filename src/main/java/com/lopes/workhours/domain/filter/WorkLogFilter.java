@@ -15,8 +15,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Builder
 public class WorkLogFilter {
-    private String employeeNickname;
-    private String apartmentDesc;
+    private String employee;
+    private String description;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate startDate;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
