@@ -9,9 +9,9 @@ spring:
       fail-on-ignored-properties: true
       fail-on-unknown-properties: true
   datasource:
-    username: ${APP_DB_USERNAME:postgres}
-    password: ${APP_DB_PASSWORD:root}
-    url: jdbc:postgresql://${APP_DB_SERVER_URL:127.0.0.1:5432/logs2}
+    username: ${APP_DB_USERNAME}
+    password: ${APP_DB_PASSWORD}
+    url: ${APP_DB_SERVER_URL}
   flyway:
     placeholderPrefix: '<<'
     placeholderSuffix: '>>'
