@@ -18,7 +18,7 @@ spring:
   data:
     web:
       pageable:
-        default-page-size: 5
+        default-page-size: 10
   jpa:
     database: postgresql
     show-sql: true
