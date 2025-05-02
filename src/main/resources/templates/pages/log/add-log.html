@@ -53,8 +53,9 @@
 
                     <div class="col-md-2">
                         <label for="duration" class="form-label" th:text="#{app.lbl.duration}">Duration</label>
-                        <input type="text" class="form-control" id="duration" name="duration" required
-                               th:value="${log?.duration}">
+                        <input type="number" class="form-control" id="duration" name="duration"
+                               th:value="${log?.duration}"
+                               min="1" step="1" required>
                     </div>
 
                     <div class="col-md-12">
