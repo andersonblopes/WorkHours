@@ -6,6 +6,8 @@ import com.lopes.workhours.service.WorkLogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,9 +27,11 @@ import java.util.stream.Collectors;
 public class HomeController {
 
     private final WorkLogService service;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     @GetMapping()
-    public String home(final @ModelAttribute WorkLogFilter filter, final Pageable pageable,
+    public String home(final @ModelAttribute WorkLogFilter filter,
+                       final @PageableDefault(sort = "executionDate", direction = Sort.Direction.ASC) Pageable pageable,
                        final Model model) {
 
         // Default to last 30 days if no dates are set
@@ -58,7 +63,7 @@ public class HomeController {
 
         Map<String, Long> workLogsOverTime = workLogs.stream()
                 .collect(Collectors.groupingBy(
-                        wl -> wl.getExecutionDate().toLocalDate().toString(), // Group by date
+                        wl -> wl.getExecutionDate().format(formatter), // formatted date string
                         LinkedHashMap::new, // Maintain insertion order
                         Collectors.summingLong(wl -> wl.getDuration() != null ? wl.getDuration() : 0L)
                 ));
