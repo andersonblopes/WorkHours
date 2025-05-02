@@ -59,8 +59,8 @@ public class WorkLogService {
             return BigDecimal.ZERO;
         }
         return logs.stream()
-                .filter(log -> log.getCurrencyValue() != null)
-                .map(WorkLog::getCurrencyValue)
+                .filter(log -> log.getTotal() != null)
+                .map(WorkLog::getTotal)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 

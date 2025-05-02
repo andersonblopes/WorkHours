@@ -12,6 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import jakarta.persistence.Version;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,6 +25,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 @Getter
@@ -85,9 +87,21 @@ public class WorkLog {
     @Column(name = "version")
     private Integer version;
 
+    @Transient
+    private BigDecimal total;
+
     @PrePersist
     public void setDefaultValues() {
         this.setUuid(UUID.randomUUID());
         this.setActive(Boolean.TRUE);
     }
+
+    public BigDecimal getTotal() {
+        var total = BigDecimal.ZERO;
+        if (Objects.nonNull(duration) && Objects.nonNull(currencyValue)) {
+            total = currencyValue.multiply(BigDecimal.valueOf(duration));
+        }
+        return total;
+    }
+
 }

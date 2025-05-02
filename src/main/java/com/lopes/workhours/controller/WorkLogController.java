@@ -66,7 +66,6 @@ public class WorkLogController {
         log.setExecutionDate(executionDate);
         log.setDuration(duration);
         log.setApartment(apartment);
-        log.setDurationType(apartment.getDurationType());
         log.setEmployee(employee);
         log.setNotes(notes);
 
