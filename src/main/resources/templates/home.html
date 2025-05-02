@@ -63,7 +63,7 @@
         data: {
             labels: labels,
             datasets: [{
-                label: 'Total Duration (minutes)',
+                label: /*[[#{app.bi.total_duration_minutes}]]*/, // Internationalized label
                 data: data,
                 backgroundColor: 'rgba(75, 192, 192, 0.6)'
             }]
@@ -89,7 +89,7 @@
         data: {
             labels: apartmentLabels,
             datasets: [{
-                label: 'Work per Apartment',
+                label: /*[[#{app.bi.work_per_apartment}]]*/, // Internationalized label
                 data: apartmentData,
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.7)',
@@ -117,7 +117,7 @@
         data: {
             labels: executionDateLabels,
             datasets: [{
-                label: 'Work Logs',
+                label: /*[[#{app.bi.work_logs}]]*/, // Internationalized label
                 data: executionDateData,
                 fill: true,
                 backgroundColor: 'rgba(153, 102, 255, 0.2)',
