@@ -52,7 +52,7 @@ public class WorkLog {
     private Long duration;
 
     @Column(name = "currency_value")
-    private BigDecimal currencyValue;
+    private BigDecimal currencyUnitValue;
 
     @Column(columnDefinition = "TEXT")
     private String notes;
@@ -98,8 +98,8 @@ public class WorkLog {
 
     public BigDecimal getTotal() {
         var total = BigDecimal.ZERO;
-        if (Objects.nonNull(duration) && Objects.nonNull(currencyValue)) {
-            total = currencyValue.multiply(BigDecimal.valueOf(duration));
+        if (Objects.nonNull(duration) && Objects.nonNull(currencyUnitValue)) {
+            total = currencyUnitValue.multiply(BigDecimal.valueOf(duration));
         }
         return total;
     }

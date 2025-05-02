@@ -30,13 +30,11 @@ public class WorkLogService {
     public WorkLog save(final WorkLog workLog) {
 
         if (isNull(workLog.getId())) {
-            workLog.setCurrencyValue(workLog.getApartment().getCurrencyValue()
-                    .multiply(new BigDecimal(workLog.getDuration())));
+            workLog.setCurrencyUnitValue(workLog.getApartment().getCurrencyValue());
         }
 
         workLog.setUser(userService.getAuthenticatedUser());
-
-
+        
         return repository.save(workLog);
     }
 

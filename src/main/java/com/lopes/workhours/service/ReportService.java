@@ -56,10 +56,10 @@ public class ReportService {
                     .append(log.getEmployee().getNickName())
                     .append("\",");
             csvBuilder
-                    .append(log.getCurrencyValue())
+                    .append(log.getTotal())
                     .append(" € \n");
 
-            totalCurrency = totalCurrency.add(log.getCurrencyValue());
+            totalCurrency = totalCurrency.add(log.getTotal());
         }
 
         // Add a blank line and then the total
@@ -123,9 +123,9 @@ public class ReportService {
             table.addCell(String.valueOf(log.getDuration()));
             table.addCell(log.getApartment().descriptionFormated());
             table.addCell(log.getEmployee().getNickName());
-            table.addCell(log.getCurrencyValue().setScale(2, RoundingMode.HALF_UP) + " €");
+            table.addCell(log.getTotal().setScale(2, RoundingMode.HALF_UP) + " €");
 
-            totalCurrency = totalCurrency.add(log.getCurrencyValue());
+            totalCurrency = totalCurrency.add(log.getTotal());
         }
 
         // Add total row
