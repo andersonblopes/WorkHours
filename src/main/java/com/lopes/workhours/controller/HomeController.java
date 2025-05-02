@@ -58,9 +58,9 @@ public class HomeController {
 
         Map<String, Long> workLogsOverTime = workLogs.stream()
                 .collect(Collectors.groupingBy(
-                        wl -> wl.getExecutionDate().toLocalDate().toString(), // Only date, e.g., "2025-04-21"
-                        LinkedHashMap::new, // Preserves insertion order
-                        Collectors.counting()
+                        wl -> wl.getExecutionDate().toLocalDate().toString(), // Group by date
+                        LinkedHashMap::new, // Maintain insertion order
+                        Collectors.summingLong(wl -> wl.getDuration() != null ? wl.getDuration() : 0L)
                 ));
 
         model.addAttribute("workLogsOverTime", workLogsOverTime);
