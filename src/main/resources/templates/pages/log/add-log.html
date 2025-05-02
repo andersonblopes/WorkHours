@@ -22,7 +22,8 @@
                     <div class="col-md-3">
                         <label for="executionDate" class="form-label" th:text="#{app.lbl.execution_date}">Execution
                             date</label>
-                        <input type="datetime-local" class="form-control" id="executionDate" name="executionDate"
+                        <input autofocus type="datetime-local" class="form-control" id="executionDate"
+                               name="executionDate"
                                required th:value="${log?.executionDate}">
                     </div>
 
