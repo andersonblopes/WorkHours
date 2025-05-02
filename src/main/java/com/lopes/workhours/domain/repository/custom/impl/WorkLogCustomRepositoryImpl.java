@@ -56,7 +56,7 @@ public class WorkLogCustomRepositoryImpl implements WorkLogCustomRepository {
 
         } catch (NoSuchElementException e) {
             log.warn("Set order query exception: {}", e.getMessage());
-            jpql.append(" ORDER BY e.createdAt DESC ");
+            jpql.append(" ORDER BY e.executionDate DESC ");
         }
 
         try {
