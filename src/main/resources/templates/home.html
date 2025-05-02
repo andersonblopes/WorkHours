@@ -5,12 +5,34 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+
 <!-- Navbar Fragment -->
 <div th:replace="fragments/navbar :: navbar"></div>
 
 <div class="container">
 
-    <div class="row my-2">
+    <div class="d-flex justify-content-center m-2">
+        <form class="row row-cols-auto g-2 align-items-end" method="get" th:action="@{/home}">
+            <div class="col">
+                <input type="date" id="startDate" name="startDate" class="form-control"
+                       th:value="${filter.startDate}">
+            </div>
+            <div class="col">
+                <input type="date" id="endDate" name="endDate" class="form-control"
+                       th:value="${filter.endDate}">
+            </div>
+            <div class="col d-flex align-items-end">
+                <button class="btn btn-primary me-2" th:title="#{app.lbl.search}" type="submit">
+                    <i class="fas fa-search"></i>
+                </button>
+                <a class="btn btn-secondary me-2" th:href="@{/home}" th:title="#{app.lbl.clean}">
+                    <i class="fas fa-times"></i>
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <div class="row my-1">
 
         <!-- Pie Chart -->
         <div class="col-md-6">
@@ -63,7 +85,7 @@
         data: {
             labels: labels,
             datasets: [{
-                label: /*[[#{app.bi.total_duration_minutes}]]*/, // Internationalized label
+                label: /*[[#{app.bi.total_duration_minutes}]]*/,
                 data: data,
                 backgroundColor: 'rgba(75, 192, 192, 0.6)'
             }]
@@ -89,7 +111,7 @@
         data: {
             labels: apartmentLabels,
             datasets: [{
-                label: /*[[#{app.bi.work_per_apartment}]]*/, // Internationalized label
+                label: /*[[#{app.bi.work_per_apartment}]]*/,
                 data: apartmentData,
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.7)',
@@ -117,7 +139,7 @@
         data: {
             labels: executionDateLabels,
             datasets: [{
-                label: /*[[#{app.bi.work_logs}]]*/, // Internationalized label
+                label: /*[[#{app.bi.work_logs}]]*/,
                 data: executionDateData,
                 fill: true,
                 backgroundColor: 'rgba(153, 102, 255, 0.2)',
