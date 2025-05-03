@@ -50,7 +50,7 @@ public class ReportService {
                     .append(log.getDuration())
                     .append(",");
             csvBuilder.append("\"")
-                    .append(log.getApartment().descriptionFormated())
+                    .append(log.getApartment().getDescriptionFormated())
                     .append("\",");
             csvBuilder.append("\"")
                     .append(log.getEmployee().getNickName())
@@ -121,7 +121,7 @@ public class ReportService {
         for (WorkLog log : logs) {
             table.addCell(String.valueOf(log.getExecutionDate()));
             table.addCell(String.valueOf(log.getDuration()));
-            table.addCell(log.getApartment().descriptionFormated());
+            table.addCell(log.getApartment().getDescriptionFormated());
             table.addCell(log.getEmployee().getNickName());
             table.addCell(log.getTotal().setScale(2, RoundingMode.HALF_UP) + " €");
 

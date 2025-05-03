@@ -74,14 +74,17 @@ public class Apartment {
     @Column(name = "version")
     private Integer version;
 
+    @Transient
+    private String descriptionFormated;
+
     @PrePersist
     public void setDefaultValues() {
         this.setUuid(UUID.randomUUID());
         this.setActive(Boolean.TRUE);
     }
 
-    @Transient
-    public String descriptionFormated() {
-        return build.getDescription().concat(" - ").concat(description);
+    public String getDescriptionFormated() {
+        this.descriptionFormated = build.getDescription().concat(" - ").concat(description);
+        return this.descriptionFormated;
     }
 }

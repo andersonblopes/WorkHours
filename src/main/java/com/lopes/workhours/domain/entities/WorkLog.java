@@ -97,11 +97,11 @@ public class WorkLog {
     }
 
     public BigDecimal getTotal() {
-        var total = BigDecimal.ZERO;
+        this.total = BigDecimal.ZERO;
         if (Objects.nonNull(duration) && Objects.nonNull(currencyUnitValue)) {
-            total = currencyUnitValue.multiply(BigDecimal.valueOf(duration));
+            this.total = currencyUnitValue.multiply(BigDecimal.valueOf(duration));
         }
-        return total;
+        return this.total;
     }
 
 }

@@ -55,7 +55,7 @@ public class HomeController {
         // Count how many work logs per apartment
         Map<String, Long> workLogsPerApartment = workLogs.stream()
                 .collect(Collectors.groupingBy(
-                        wl -> wl.getApartment().descriptionFormated(),
+                        wl -> wl.getApartment().getDescriptionFormated(),
                         Collectors.counting()
                 ));
 
