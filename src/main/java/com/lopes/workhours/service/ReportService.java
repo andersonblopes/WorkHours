@@ -31,44 +31,38 @@ public class ReportService {
     private final WorkLogRepository repository;
 
     public byte[] generateCSV(final WorkLogFilter filter, final Pageable pageable) {
-
         List<WorkLog> filteredLogs = repository.findByFilter(filter, pageable).getContent();
 
         StringBuilder csvBuilder = new StringBuilder();
-        csvBuilder.append("ID,Execution Date,Duration,Apartment,Employee,Value (€) \n");
+        csvBuilder.append("ID,Execution Date,Duration,Apartment,Employee,Value (€)\n");
 
         BigDecimal totalCurrency = BigDecimal.ZERO;
+        long totalDuration = 0L;
 
         for (WorkLog log : filteredLogs) {
             csvBuilder
-                    .append(log.getId())
-                    .append(",");
-            csvBuilder
-                    .append(log.getExecutionDate())
-                    .append(",");
-            csvBuilder
-                    .append(log.getDuration())
-                    .append(",");
-            csvBuilder.append("\"")
-                    .append(log.getApartment().getDescriptionFormated())
-                    .append("\",");
-            csvBuilder.append("\"")
-                    .append(log.getEmployee().getNickName())
-                    .append("\",");
-            csvBuilder
-                    .append(log.getTotal())
-                    .append(" € \n");
+                    .append(log.getId()).append(",")
+                    .append(log.getExecutionDate()).append(",")
+                    .append(log.getDuration()).append(",")
+                    .append("\"").append(log.getApartment().getDescriptionFormated()).append("\",")
+                    .append("\"").append(log.getEmployee().getNickName()).append("\",")
+                    .append(log.getTotal()).append(" €\n");
 
             totalCurrency = totalCurrency.add(log.getTotal());
+            if (log.getDuration() != null) {
+                totalDuration += log.getDuration();
+            }
         }
 
-        // Add a blank line and then the total
-        csvBuilder.append(",,,,Total,")
-                .append(totalCurrency.setScale(2, RoundingMode.HALF_UP))
-                .append(" € \n");
+        csvBuilder
+                .append(",Total duration:,")
+                .append(totalDuration)
+                .append(",,Total:, ")
+                .append(totalCurrency.setScale(2, RoundingMode.HALF_UP)).append(" €\n");
 
         return csvBuilder.toString().getBytes(StandardCharsets.UTF_8);
     }
+
 
     public byte[] generatePdf(final WorkLogFilter filter, final Pageable pageable) {
 
@@ -142,6 +136,5 @@ public class ReportService {
         totalValueCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         table.addCell(totalValueCell);
     }
-
-
+    
 }
