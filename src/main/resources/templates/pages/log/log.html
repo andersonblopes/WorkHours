@@ -104,15 +104,15 @@
         <tr>
             <td colspan="2">
                 <div class="d-flex">
-                    <a class="btn btn-success btn-sm me-2"
-                       th:href="@{/export/csv(
-employee=${filter.employee},
-description=${filter.description},
-startDate=${filter.startDate},
-endDate=${filter.endDate})}" th:title="#{app.lbl.export_csv}">
-                        <i class="fas fa-file-csv"></i>
-                        <span th:text="#{app.lbl.export_csv}">Export CSV</span>
-                    </a>
+                    <!--                    <a class="btn btn-success btn-sm me-2"-->
+                    <!--                       th:href="@{/export/csv(-->
+                    <!--employee=${filter.employee},-->
+                    <!--description=${filter.description},-->
+                    <!--startDate=${filter.startDate},-->
+                    <!--endDate=${filter.endDate})}" th:title="#{app.lbl.export_csv}">-->
+                    <!--                        <i class="fas fa-file-csv"></i>-->
+                    <!--                        <span th:text="#{app.lbl.export_csv}">Export CSV</span>-->
+                    <!--                    </a>-->
                     <a class="btn btn-danger btn-sm"
                        th:href="@{/export/pdf(
 employee=${filter.employee},
@@ -126,14 +126,14 @@ endDate=${filter.endDate})}" th:title="#{app.lbl.export_pdf}">
             </td>
             <!-- Total Hours label and value -->
             <td class="text-start">
-                <strong th:text="#{app.lbl.total_duration}">Total hours:</strong>
+                <strong th:text="#{app.lbl.total_duration}+': '">Total hours:</strong>
                 <span th:text="${totalHours}"></span>
             </td>
             <td></td> <!-- Apartment -->
             <td></td> <!-- Employee -->
             <!-- Total Currency label and value -->
             <td class="text-end">
-                <strong th:text="#{app.lbl.total}">Total:</strong>
+                <strong th:text="#{app.lbl.total}+': '">Total:</strong>
                 <span th:text="${#numbers.formatDecimal(totalCurrency, 1, 'POINT', 2, 'COMMA')} + ' €'"></span>
             </td>
             <td></td> <!-- Actions -->
