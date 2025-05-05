@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
-@Mapper(componentModel = "spring", uses = {OwnerMapper.class, ApartmentMapper.class})
+@Mapper(componentModel = "spring")
 public interface BuildMapper {
 
     BuildModel toModel(Build build);
