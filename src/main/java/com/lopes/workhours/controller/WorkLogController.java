@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
@@ -34,6 +35,13 @@ public class WorkLogController {
                           final Model model) {
 
         populateModel(model);
+
+        // Default to last 30 days if no dates are set
+        if (filter.getStartDate() == null && filter.getEndDate() == null) {
+            filter.setEndDate(LocalDate.now());
+            filter.setStartDate(LocalDate.now().minusDays(30));
+        }
+
         Page<WorkLog> logPage = service.findByFilter(filter, pageable);
         model.addAttribute("logs", logPage);
         model.addAttribute("filter", filter);

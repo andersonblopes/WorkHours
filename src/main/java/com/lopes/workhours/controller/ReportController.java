@@ -2,7 +2,7 @@ package com.lopes.workhours.controller;
 
 import com.lopes.workhours.domain.filter.WorkLogFilter;
 import com.lopes.workhours.service.ReportService;
-import com.lopes.workhours.utils.FileNameGenerator;
+import com.lopes.workhours.utils.AppUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -25,7 +25,7 @@ public class ReportController {
 
         byte[] csvBytes = service.generateCSV(filter, pageable);
 
-        String filename = FileNameGenerator.generateWorkLogsFileName("csv");
+        String filename = AppUtil.generateFileName("csv");
 
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename);
@@ -40,7 +40,7 @@ public class ReportController {
 
         byte[] pdfBytes = service.generatePdf(filter, pageable);
 
-        String filename = FileNameGenerator.generateWorkLogsFileName("pdf");
+        String filename = AppUtil.generateFileName("pdf");
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)

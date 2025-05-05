@@ -3,32 +3,34 @@ package com.lopes.workhours.service;
 import com.lopes.workhours.domain.entities.WorkLog;
 import com.lopes.workhours.domain.filter.WorkLogFilter;
 import com.lopes.workhours.domain.repository.WorkLogRepository;
-import com.lowagie.text.Chunk;
-import com.lowagie.text.Document;
-import com.lowagie.text.Element;
-import com.lowagie.text.Font;
-import com.lowagie.text.FontFactory;
-import com.lowagie.text.PageSize;
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.Phrase;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfWriter;
+import com.lopes.workhours.utils.AppUtil;
 import lombok.RequiredArgsConstructor;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.awt.*;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.nio.charset.StandardCharsets;
+import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Locale;
 
 @RequiredArgsConstructor
 @Service
 public class ReportService {
 
     private final WorkLogRepository repository;
+    private final MessageSource messageSource;
 
     public byte[] generateCSV(final WorkLogFilter filter, final Pageable pageable) {
         List<WorkLog> filteredLogs = repository.findByFilter(filter, pageable).getContent();
@@ -63,37 +65,100 @@ public class ReportService {
         return csvBuilder.toString().getBytes(StandardCharsets.UTF_8);
     }
 
-
     public byte[] generatePdf(final WorkLogFilter filter, final Pageable pageable) {
 
         List<WorkLog> logs = repository.findByFilter(filter, pageable).getContent();
 
-        try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
-            Document document = new Document(PageSize.A4);
-            PdfWriter.getInstance(document, out);
+        try (PDDocument document = new PDDocument(); ByteArrayOutputStream out = new ByteArrayOutputStream()) {
 
-            document.open();
+            PDPage page = new PDPage(PDRectangle.A4);
+            document.addPage(page);
 
-            // Title
-            Font titleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18);
-            Paragraph title = new Paragraph("Work Logs", titleFont);
-            title.setAlignment(Paragraph.ALIGN_CENTER);
-            document.add(title);
+            PDPageContentStream contentStream = new PDPageContentStream(document, page);
+            float y = PDRectangle.A4.getHeight() - 50;
+            float margin = 50;
+            float width = page.getMediaBox().getWidth() - 2 * margin;
+            float leading = 18;
 
-            document.add(Chunk.NEWLINE);
+            contentStream.beginText();
+            contentStream.setFont(PDType1Font.HELVETICA_BOLD, 18);
+            contentStream.setNonStrokingColor(Color.BLACK);
+            contentStream.newLineAtOffset(margin, y);
+            contentStream.showText("Work Logs - "
+                    .concat(AppUtil.formatDate(filter.getStartDate()))
+                    .concat("_")
+                    .concat(AppUtil.formatDate(filter.getEndDate())));
+            contentStream.endText();
 
-            // Table
-            PdfPTable table = new PdfPTable(5); // 5 columns
-            table.setWidthPercentage(100);
-            table.setSpacingBefore(10);
+            y -= 30;
 
-            addTableHeader(table);
-            addRowsWithTotal(table, logs);
+            Locale locale = LocaleContextHolder.getLocale();
 
-            document.add(table);
+            String executionDate = messageSource.getMessage("app.lbl.execution_date", null, locale);
+            String duration = messageSource.getMessage("app.lbl.duration", null, locale);
+            String apartment = messageSource.getMessage("app.lbl.apartment", null, locale);
+            String employee = messageSource.getMessage("app.lbl.employee", null, locale);
+            String currencyValue = messageSource.getMessage("app.lbl.value", null, locale);
+            String totalDurationLabel = messageSource.getMessage("app.lbl.total_duration", null, locale);
+            String totalLabel = messageSource.getMessage("app.lbl.total", null, locale);
 
-            document.close();
+            contentStream.setFont(PDType1Font.HELVETICA_BOLD, 12);
+            contentStream.setNonStrokingColor(Color.BLACK);
+            y = drawRow(contentStream, y, margin, width, leading,
+                    executionDate, duration, apartment, employee, currencyValue);
 
+            contentStream.setFont(PDType1Font.HELVETICA, 12);
+            BigDecimal total = BigDecimal.ZERO;
+            Long totalDuration = 0L;
+            DecimalFormat df = new DecimalFormat("0.00");
+
+            for (WorkLog log : logs) {
+                if (y <= 70) {
+                    contentStream.close();
+
+                    page = new PDPage(PDRectangle.A4);
+                    document.addPage(page);
+
+                    contentStream = new PDPageContentStream(document, page);
+                    y = PDRectangle.A4.getHeight() - 50;
+
+                    contentStream.setFont(PDType1Font.HELVETICA_BOLD, 12);
+                    y = drawRow(contentStream, y, margin, width, leading,
+                            executionDate, duration, apartment, employee, currencyValue);
+                    contentStream.setFont(PDType1Font.HELVETICA, 12);
+                }
+
+                String value = df.format(log.getTotal()).replace(".", ",") + " €";
+                y = drawRow(contentStream, y, margin, width, leading,
+                        AppUtil.formatDate(log.getExecutionDate()),
+                        "    ".concat(String.valueOf(log.getDuration())),
+                        AppUtil.truncate(log.getApartment().getDescriptionFormated(), 18, "..."),
+                        AppUtil.truncate(log.getEmployee().getNickName(), 18, "..."),
+                        value);
+
+                total = total.add(log.getTotal());
+                totalDuration += log.getDuration();
+            }
+
+            y -= 10;
+            contentStream.setFont(PDType1Font.HELVETICA_BOLD, 12);
+            y = drawRow(
+                    contentStream,
+                    y,
+                    margin,
+                    width,
+                    leading,
+                    totalDurationLabel,
+                    totalDuration.toString(), "",
+                    totalLabel.concat(":"),
+                    df.format(total.setScale(2,
+                                    BigDecimal.ROUND_HALF_UP))
+                            .replace(".", ",") + " €");
+            ;
+
+            contentStream.close();
+
+            document.save(out);
             return out.toByteArray();
 
         } catch (Exception e) {
@@ -101,40 +166,22 @@ public class ReportService {
         }
     }
 
-    private void addTableHeader(PdfPTable table) {
-        table.addCell("Execution Date");
-        table.addCell("Duration");
-        table.addCell("Apartment");
-        table.addCell("Employee");
-        table.addCell("Value (€)");
-    }
+    // Helper function to draw each row of the table
+    private float drawRow(PDPageContentStream contentStream, float y, float margin, float tableWidth, float leading, String... cells) throws IOException {
+        float[] colWidths = {100, 70, 100, 100, 80};
+        float x = margin;
 
-    private void addRowsWithTotal(PdfPTable table, List<WorkLog> logs) {
-        BigDecimal totalCurrency = BigDecimal.ZERO;
+        contentStream.beginText();
+        contentStream.setLeading(leading);
+        contentStream.newLineAtOffset(x, y);
 
-        for (WorkLog log : logs) {
-            table.addCell(String.valueOf(log.getExecutionDate()));
-            table.addCell(String.valueOf(log.getDuration()));
-            table.addCell(log.getApartment().getDescriptionFormated());
-            table.addCell(log.getEmployee().getNickName());
-            table.addCell(log.getTotal().setScale(2, RoundingMode.HALF_UP) + " €");
-
-            totalCurrency = totalCurrency.add(log.getTotal());
+        for (int i = 0; i < cells.length; i++) {
+            contentStream.showText(cells[i] != null ? cells[i] : "");
+            contentStream.newLineAtOffset(colWidths[i], 0);
         }
 
-        // Add total row
-        PdfPCell emptyCell = new PdfPCell(new Phrase(""));
-        emptyCell.setColspan(3);
-        emptyCell.setBorder(PdfPCell.NO_BORDER);
-        table.addCell(emptyCell);
+        contentStream.endText();
 
-        PdfPCell totalLabelCell = new PdfPCell(new Phrase("Total:"));
-        totalLabelCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-        table.addCell(totalLabelCell);
-
-        PdfPCell totalValueCell = new PdfPCell(new Phrase(totalCurrency.setScale(2, RoundingMode.HALF_UP) + " €"));
-        totalValueCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-        table.addCell(totalValueCell);
+        return y - leading;
     }
-    
 }
