@@ -45,7 +45,7 @@
                             <option value="" th:text="#{app.lbl.select}">Select an apartment</option>
                             <option th:each="apartment : ${apartments}"
                                     th:value="${apartment.id}"
-                                    th:text="${apartment.descriptionFormated()}"
+                                    th:text="${apartment.descriptionFormated}"
                                     th:selected="${apartment?.id == log?.apartment?.id}">
                             </option>
                         </select>
