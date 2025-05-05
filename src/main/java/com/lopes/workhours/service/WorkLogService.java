@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
 import static java.util.Objects.isNull;
 
@@ -34,7 +35,7 @@ public class WorkLogService {
         }
 
         workLog.setUser(userService.getAuthenticatedUser());
-        
+
         return repository.save(workLog);
     }
 
@@ -60,6 +61,18 @@ public class WorkLogService {
                 .filter(log -> log.getTotal() != null)
                 .map(WorkLog::getTotal)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    public Long sumHours(List<WorkLog> logs) {
+        if (logs == null || logs.isEmpty()) {
+            return 0L;
+        }
+
+        return logs.stream()
+                .map(WorkLog::getDuration)
+                .filter(Objects::nonNull)
+                .mapToLong(Long::longValue)
+                .sum();
     }
 
 }

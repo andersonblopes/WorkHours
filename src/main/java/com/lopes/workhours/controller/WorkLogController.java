@@ -38,6 +38,7 @@ public class WorkLogController {
         model.addAttribute("logs", logPage);
         model.addAttribute("filter", filter);
         model.addAttribute("totalCurrency", service.sumCurrency(logPage.getContent()));
+        model.addAttribute("totalHours", service.sumHours(logPage.getContent()));
 
         return "pages/log/log";
     }
