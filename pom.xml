@@ -20,7 +20,6 @@
 
         <flyway.version>9.0.0</flyway.version>
         <pdfbox.version>2.0.30</pdfbox.version>
-        <commons-csv.version>1.10.0</commons-csv.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
 
         <apache.maven-surefire-plugin.version>3.0.0</apache.maven-surefire-plugin.version>
@@ -56,12 +55,6 @@
             <groupId>org.apache.pdfbox</groupId>
             <artifactId>pdfbox</artifactId>
             <version>${pdfbox.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-csv</artifactId>
-            <version>${commons-csv.version}</version>
         </dependency>
 
         <dependency>

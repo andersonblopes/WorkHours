@@ -20,7 +20,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Locale;
@@ -31,39 +30,6 @@ public class ReportService {
 
     private final WorkLogRepository repository;
     private final MessageSource messageSource;
-
-    public byte[] generateCSV(final WorkLogFilter filter, final Pageable pageable) {
-        List<WorkLog> filteredLogs = repository.findByFilter(filter, pageable).getContent();
-
-        StringBuilder csvBuilder = new StringBuilder();
-        csvBuilder.append("ID,Execution Date,Duration,Apartment,Employee,Value (€)\n");
-
-        BigDecimal totalCurrency = BigDecimal.ZERO;
-        long totalDuration = 0L;
-
-        for (WorkLog log : filteredLogs) {
-            csvBuilder
-                    .append(log.getId()).append(",")
-                    .append(log.getExecutionDate()).append(",")
-                    .append(log.getDuration()).append(",")
-                    .append("\"").append(log.getApartment().getDescriptionFormated()).append("\",")
-                    .append("\"").append(log.getEmployee().getNickName()).append("\",")
-                    .append(log.getTotal()).append(" €\n");
-
-            totalCurrency = totalCurrency.add(log.getTotal());
-            if (log.getDuration() != null) {
-                totalDuration += log.getDuration();
-            }
-        }
-
-        csvBuilder
-                .append(",Total duration:,")
-                .append(totalDuration)
-                .append(",,Total:, ")
-                .append(totalCurrency.setScale(2, RoundingMode.HALF_UP)).append(" €\n");
-
-        return csvBuilder.toString().getBytes(StandardCharsets.UTF_8);
-    }
 
     public byte[] generatePdf(final WorkLogFilter filter, final Pageable pageable) {
 
@@ -78,7 +44,6 @@ public class ReportService {
             float y = PDRectangle.A4.getHeight() - 50;
             float margin = 50;
             float width = page.getMediaBox().getWidth() - 2 * margin;
-            float leading = 18;
 
             contentStream.beginText();
             contentStream.setFont(PDType1Font.HELVETICA_BOLD, 18);
@@ -104,7 +69,7 @@ public class ReportService {
 
             contentStream.setFont(PDType1Font.HELVETICA_BOLD, 12);
             contentStream.setNonStrokingColor(Color.BLACK);
-            y = drawRow(contentStream, y, margin, width, leading,
+            y = drawRow(contentStream, y, margin, width,
                     executionDate, duration, apartment, employee, currencyValue);
 
             contentStream.setFont(PDType1Font.HELVETICA, 12);
@@ -123,13 +88,13 @@ public class ReportService {
                     y = PDRectangle.A4.getHeight() - 50;
 
                     contentStream.setFont(PDType1Font.HELVETICA_BOLD, 12);
-                    y = drawRow(contentStream, y, margin, width, leading,
+                    y = drawRow(contentStream, y, margin, width,
                             executionDate, duration, apartment, employee, currencyValue);
                     contentStream.setFont(PDType1Font.HELVETICA, 12);
                 }
 
                 String value = df.format(log.getTotal()).replace(".", ",") + " €";
-                y = drawRow(contentStream, y, margin, width, leading,
+                y = drawRow(contentStream, y, margin, width,
                         AppUtil.formatDate(log.getExecutionDate()),
                         "    ".concat(String.valueOf(log.getDuration())),
                         AppUtil.truncate(log.getApartment().getDescriptionFormated(), 18, "..."),
@@ -147,14 +112,12 @@ public class ReportService {
                     y,
                     margin,
                     width,
-                    leading,
                     totalDurationLabel,
                     totalDuration.toString(), "",
                     totalLabel.concat(":"),
                     df.format(total.setScale(2,
-                                    BigDecimal.ROUND_HALF_UP))
+                                    RoundingMode.HALF_UP))
                             .replace(".", ",") + " €");
-            ;
 
             contentStream.close();
 
@@ -167,7 +130,7 @@ public class ReportService {
     }
 
     // Helper function to draw each row of the table
-    private float drawRow(PDPageContentStream contentStream, float y, float margin, float tableWidth, float leading, String... cells) throws IOException {
+    private float drawRow(PDPageContentStream contentStream, float y, float margin, float leading, String... cells) throws IOException {
         float[] colWidths = {100, 70, 100, 100, 80};
         float x = margin;
 

@@ -19,22 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ReportController {
 
     private final ReportService service;
-
-    @GetMapping("/csv")
-    public ResponseEntity<byte[]> exportToCsv(final @ModelAttribute WorkLogFilter filter, final Pageable pageable) {
-
-        byte[] csvBytes = service.generateCSV(filter, pageable);
-
-        String filename = AppUtil.generateFileName("csv");
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename);
-        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-
-        return ResponseEntity.ok().headers(headers).body(csvBytes);
-    }
-
-
+    
     @GetMapping("/pdf")
     public ResponseEntity<byte[]> exportPdf(final @ModelAttribute WorkLogFilter filter, final Pageable pageable) {
 
