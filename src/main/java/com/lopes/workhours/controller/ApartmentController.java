@@ -2,13 +2,16 @@ package com.lopes.workhours.controller;
 
 import com.lopes.workhours.domain.entities.Apartment;
 import com.lopes.workhours.domain.enums.DurationType;
+import com.lopes.workhours.domain.filter.ApartmentFilter;
 import com.lopes.workhours.service.ApartmentService;
 import com.lopes.workhours.service.BuildService;
 import com.lopes.workhours.service.DurationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,9 +33,14 @@ public class ApartmentController {
     private final DurationService durationService;
 
     @GetMapping
-    public String list(Model model, Locale locale) {
-        model.addAttribute("apartments", service.findAll());
+    public String list(final @ModelAttribute ApartmentFilter filter,
+                       final Pageable pageable,
+                       final Model model,
+                       Locale locale) {
+        model.addAttribute("apartments", service.findByFilter(filter, pageable));
+        model.addAttribute("durationTypes", DurationType.values());
         model.addAttribute("durationDescriptions", getDurationDescriptions(locale));
+        model.addAttribute("filter", filter);
 
         return "pages/apartment/apartment";
     }

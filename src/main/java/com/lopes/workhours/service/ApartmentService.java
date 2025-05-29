@@ -1,9 +1,12 @@
 package com.lopes.workhours.service;
 
 import com.lopes.workhours.domain.entities.Apartment;
+import com.lopes.workhours.domain.filter.ApartmentFilter;
 import com.lopes.workhours.domain.repository.ApartmentRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +22,10 @@ public class ApartmentService {
 
     public List<Apartment> findAll() {
         return repository.findAll();
+    }
+
+    public Page<Apartment> findByFilter(ApartmentFilter filter, Pageable pageable) {
+        return repository.findByFilter(filter, pageable);
     }
 
     public Apartment save(Apartment entity) {
