@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.lopes</groupId>
     <artifactId>WorkHours</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>2.0.0</version>
     <name>WorkHoursApplication</name>
     <description>Application to manage work hours</description>
     <properties>
