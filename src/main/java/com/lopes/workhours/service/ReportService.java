@@ -34,6 +34,7 @@ public class ReportService {
     public byte[] generatePdf(final WorkLogFilter filter, final Pageable pageable) {
 
         List<WorkLog> logs = repository.findByFilter(filter, pageable).getContent();
+        Locale locale = LocaleContextHolder.getLocale();
 
         try (PDDocument document = new PDDocument(); ByteArrayOutputStream out = new ByteArrayOutputStream()) {
 
@@ -44,20 +45,19 @@ public class ReportService {
             float y = PDRectangle.A4.getHeight() - 50;
             float margin = 50;
             float width = page.getMediaBox().getWidth() - 2 * margin;
+            float leading = 18;
 
             contentStream.beginText();
             contentStream.setFont(PDType1Font.HELVETICA_BOLD, 18);
             contentStream.setNonStrokingColor(Color.BLACK);
             contentStream.newLineAtOffset(margin, y);
-            contentStream.showText("Work Logs - "
+            contentStream.showText(messageSource.getMessage("app.title", null, locale) + " - "
                     .concat(AppUtil.formatDate(filter.getStartDate()))
                     .concat("_")
                     .concat(AppUtil.formatDate(filter.getEndDate())));
             contentStream.endText();
 
             y -= 30;
-
-            Locale locale = LocaleContextHolder.getLocale();
 
             String executionDate = messageSource.getMessage("app.lbl.execution_date", null, locale);
             String duration = messageSource.getMessage("app.lbl.duration", null, locale);
@@ -69,7 +69,7 @@ public class ReportService {
 
             contentStream.setFont(PDType1Font.HELVETICA_BOLD, 12);
             contentStream.setNonStrokingColor(Color.BLACK);
-            y = drawRow(contentStream, y, margin, width,
+            y = drawRow(contentStream, y, margin, width, leading,
                     executionDate, duration, apartment, employee, currencyValue);
 
             contentStream.setFont(PDType1Font.HELVETICA, 12);
@@ -88,13 +88,13 @@ public class ReportService {
                     y = PDRectangle.A4.getHeight() - 50;
 
                     contentStream.setFont(PDType1Font.HELVETICA_BOLD, 12);
-                    y = drawRow(contentStream, y, margin, width,
+                    y = drawRow(contentStream, y, margin, width, leading,
                             executionDate, duration, apartment, employee, currencyValue);
                     contentStream.setFont(PDType1Font.HELVETICA, 12);
                 }
 
                 String value = df.format(log.getTotal()).replace(".", ",") + " €";
-                y = drawRow(contentStream, y, margin, width,
+                y = drawRow(contentStream, y, margin, width, leading,
                         AppUtil.formatDate(log.getExecutionDate()),
                         "    ".concat(String.valueOf(log.getDuration())),
                         AppUtil.truncate(log.getApartment().getDescriptionFormated(), 18, "..."),
@@ -112,12 +112,14 @@ public class ReportService {
                     y,
                     margin,
                     width,
+                    leading,
                     totalDurationLabel,
                     totalDuration.toString(), "",
                     totalLabel.concat(":"),
                     df.format(total.setScale(2,
                                     RoundingMode.HALF_UP))
                             .replace(".", ",") + " €");
+            ;
 
             contentStream.close();
 
@@ -130,7 +132,7 @@ public class ReportService {
     }
 
     // Helper function to draw each row of the table
-    private float drawRow(PDPageContentStream contentStream, float y, float margin, float leading, String... cells) throws IOException {
+    private float drawRow(PDPageContentStream contentStream, float y, float margin, float tableWidth, float leading, String... cells) throws IOException {
         float[] colWidths = {100, 70, 100, 100, 80};
         float x = margin;
 
