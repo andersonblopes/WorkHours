@@ -1,12 +1,15 @@
 package com.lopes.workhours.controller;
 
 import com.lopes.workhours.domain.entities.Build;
+import com.lopes.workhours.domain.filter.BuildFilter;
 import com.lopes.workhours.service.BuildService;
 import com.lopes.workhours.service.OwnerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,8 +24,11 @@ public class BuildController {
     private final OwnerService ownerService;
 
     @GetMapping()
-    public String getAllEntities(final Model model) {
-        model.addAttribute("builds", service.findAll());
+    public String getAllEntities(final @ModelAttribute BuildFilter filter,
+                                 final Pageable pageable,
+                                 final Model model) {
+        model.addAttribute("builds", service.findByFilter(filter, pageable));
+        model.addAttribute("filter", filter);
 
         return "pages/build/build";
     }

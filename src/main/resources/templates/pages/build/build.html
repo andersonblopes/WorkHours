@@ -17,6 +17,50 @@
         </a>
     </div>
 
+    <!-- Filter -->
+    <div class="container">
+        <div class="my-4">
+            <form class="row g-3 align-items-center w-100" method="get" th:action="@{/build}">
+                <div class="col-md-3">
+                    <input class="form-control" name="description" th:placeholder="#{app.lbl.description}"
+                           th:value="${filter.description}"
+                           type="text">
+                </div>
+
+                <div class="col-md-4">
+                    <input class="form-control" name="address" th:placeholder="#{app.lbl.address}"
+                           th:value="${filter.address}"
+                           type="text">
+                </div>
+                <div class="col-md-3">
+                    <input class="form-control" name="owner" th:placeholder="#{app.lbl.owner}"
+                           th:value="${filter.owner}"
+                           type="text">
+                </div>
+
+                <!-- New: size selection dropdown -->
+                <div class="col-md-1">
+                    <select class="form-select" name="size" onchange="this.form.submit()">
+                        <option th:selected="${builds.size == 5}" th:value="5">5</option>
+                        <option th:selected="${builds.size == 10}" th:value="10">10</option>
+                        <option th:selected="${builds.size == 25}" th:value="25">25</option>
+                        <option th:selected="${builds.size == 50}" th:value="50">50</option>
+                        <option th:selected="${builds.size == 100}" th:value="100">100</option>
+                    </select>
+                </div>
+
+                <div class="col-md-1 d-flex align-items-center">
+                    <button class="btn btn-primary me-2" th:title="#{app.lbl.search}" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <a class="btn btn-secondary me-2" th:href="@{/build}" th:title="#{app.lbl.clean}">
+                        <i class="fas fa-times"></i>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <table class="table table-bordered mt-3">
         <thead class="table-light">
         <tr>
@@ -53,6 +97,30 @@
         </tr>
         </tbody>
     </table>
+
+    <!-- No records message -->
+    <div th:if="${builds.totalElements == 0}" class="alert alert-warning mt-3" role="alert">
+        <span th:text="#{app.lbl.no_results}">No records found</span>
+    </div>
+
+    <!-- Pagination -->
+    <div class="d-flex justify-content-between align-items-center" th:if="${builds.totalElements > 0}">
+        <div th:text="#{app.pagination(${builds.number + 1}, ${builds.totalPages})}">Page 1 of 5</div>
+        <div>
+            <nav>
+                <ul class="pagination mb-0">
+                    <li class="page-item" th:classappend="${builds.first} ? 'disabled'">
+                        <a class="page-link" th:href="@{/build(page=${builds.number - 1}, size=${builds.size},
+                         description=${filter.description}, address=${filter.address}, owner=${filter.owner})}">&laquo;</a>
+                    </li>
+                    <li class="page-item" th:classappend="${builds.last} ? 'disabled'">
+                        <a class="page-link" th:href="@{/employee(page=${builds.number + 1}, size=${builds.size},
+                         description=${filter.description}, address=${filter.address}, owner=${filter.owner})}">&raquo;</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
 
     <!-- Footer -->
     <div class="footer" th:replace="fragments/footer :: footer"></div>

@@ -1,9 +1,12 @@
 package com.lopes.workhours.service;
 
 import com.lopes.workhours.domain.entities.Build;
+import com.lopes.workhours.domain.filter.BuildFilter;
 import com.lopes.workhours.domain.repository.BuildRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +22,10 @@ public class BuildService {
 
     public List<Build> findAll() {
         return repository.findAll();
+    }
+
+    public Page<Build> findByFilter(BuildFilter filter, Pageable pageable) {
+        return repository.findByFilter(filter, pageable);
     }
 
     public Build save(Build entity) {
