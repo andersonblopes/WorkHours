@@ -1,9 +1,12 @@
 package com.lopes.workhours.service;
 
 import com.lopes.workhours.domain.entities.Owner;
+import com.lopes.workhours.domain.filter.OwnerFilter;
 import com.lopes.workhours.domain.repository.OwnerRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +22,10 @@ public class OwnerService {
 
     public List<Owner> findAll() {
         return repository.findAll();
+    }
+
+    public Page<Owner> findByFilter(OwnerFilter filter, Pageable pageable) {
+        return repository.findByFilter(filter, pageable);
     }
 
     public Owner save(Owner entity) {
@@ -38,5 +45,4 @@ public class OwnerService {
     public void deleteById(Long id) {
         repository.deleteById(id);
     }
-
 }

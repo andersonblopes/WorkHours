@@ -2,12 +2,15 @@ package com.lopes.workhours.controller;
 
 import com.lopes.workhours.domain.entities.Owner;
 import com.lopes.workhours.domain.entities.User;
+import com.lopes.workhours.domain.filter.OwnerFilter;
 import com.lopes.workhours.service.OwnerService;
 import com.lopes.workhours.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,8 +25,12 @@ public class OwnerController {
     private final UserService userService;
 
     @GetMapping("/owner")
-    public String getEmployees(Model model) {
-        model.addAttribute("owners", service.findAll());
+    public String getEmployees(final @ModelAttribute OwnerFilter filter,
+                               final Pageable pageable,
+                               final Model model) {
+        model.addAttribute("owners", service.findByFilter(filter, pageable));
+        model.addAttribute("filter", filter);
+        
         return "pages/owner/owner";
     }
 
