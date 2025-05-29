@@ -100,7 +100,7 @@
             </td>
         </tr>
         </tbody>
-        <tfoot class="table-light">
+        <tfoot class="table-light" th:if="${logs.totalElements > 0}">
         <tr>
             <td colspan="2">
                 <div class="d-flex">
@@ -133,7 +133,13 @@ endDate=${filter.endDate})}" th:title="#{app.lbl.export_pdf}">
 
     </table>
 
-    <div class="d-flex justify-content-between align-items-center">
+    <!-- No records message -->
+    <div th:if="${logs.totalElements == 0}" class="alert alert-warning mt-3" role="alert">
+        <span th:text="#{app.lbl.no_results}">No records found.</span>
+    </div>
+
+    <!-- Pagination -->
+    <div class="d-flex justify-content-between align-items-center" th:if="${logs.totalElements > 0}">
         <div th:text="#{app.pagination(${logs.number + 1}, ${logs.totalPages})}">Page 1 of 5</div>
         <div>
             <nav>

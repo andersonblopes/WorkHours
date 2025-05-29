@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title th:text="#{app.lbl.owners}">Owners</title>
@@ -83,15 +83,15 @@
             <td th:text="${owner.user.nickName}"></td>
             <td class="text-center">
                 <a
-                        th:title="#{app.lbl.edit}"
-                        class="text-warning me-2" th:href="@{|/owner/edit/${owner.id}|}">
+                        class="text-warning me-2"
+                        th:href="@{|/owner/edit/${owner.id}|}" th:title="#{app.lbl.edit}">
                     <i class="fas fa-edit"></i>
                 </a>
-                <a th:title="#{app.lbl.delete}"
-                   href="#" class="text-danger"
-                   data-bs-toggle="modal"
-                   data-bs-target="#deleteModal"
-                   th:attr="data-id=${owner.id}, data-name=${owner.name}">
+                <a class="text-danger"
+                   data-bs-target="#deleteModal" data-bs-toggle="modal"
+                   href="#"
+                   th:attr="data-id=${owner.id}, data-name=${owner.name}"
+                   th:title="#{app.lbl.delete}">
                     <i class="fas fa-trash-alt"></i>
                 </a>
             </td>
@@ -99,29 +99,54 @@
         </tbody>
     </table>
 
+    <!-- No records message -->
+    <div th:if="${owners.totalElements == 0}" class="alert alert-warning mt-3" role="alert">
+        <span th:text="#{app.lbl.no_results}">No records found.</span>
+    </div>
+
+    <!-- Pagination -->
+    <div class="d-flex justify-content-between align-items-center" th:if="${owners.totalElements > 0}">
+        <div th:text="#{app.pagination(${owners.number + 1}, ${owners.totalPages})}">Page 1 of 5</div>
+        <div>
+            <nav>
+                <ul class="pagination mb-0">
+                    <li class="page-item" th:classappend="${owners.first} ? 'disabled'">
+                        <a class="page-link" th:href="@{/owner(page=${owners.number - 1}, size=${owners.size},
+                         name=${filter.name}, email=${filter.email}, phone=${filter.phone})}">&laquo;</a>
+                    </li>
+                    <li class="page-item" th:classappend="${owners.last} ? 'disabled'">
+                        <a class="page-link" th:href="@{/owner(page=${owners.number + 1}, size=${owners.size},
+                         name=${filter.name}, email=${filter.email}, phone=${filter.phone})}">&raquo;</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+
     <!-- Footer -->
     <div class="footer" th:replace="fragments/footer :: footer"></div>
 </div>
 
 <!-- Delete Confirmation Modal -->
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+<div aria-hidden="true" aria-labelledby="deleteModalLabel" class="modal fade" id="deleteModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-danger text-white">
                 <h5 class="modal-title" id="deleteModalLabel" th:text="#{app.confirm.delete.header}">Confirm
                     Deletion</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
+                <button aria-label="Close" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        type="button"></button>
             </div>
             <div class="modal-body">
                 <span id="deleteMessage" th:utext="#{app.confirm.delete('')}">Are you sure you want to delete <strong
                         id="entityName"></strong>?</span>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" th:text="#{app.lbl.cancel}">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" th:text="#{app.lbl.cancel}" type="button">
                     Cancel
                 </button>
-                <a id="confirmDeleteBtn" class="btn btn-danger" th:text="#{app.lbl.delete}">Delete</a>
+                <a class="btn btn-danger" id="confirmDeleteBtn" th:text="#{app.lbl.delete}">Delete</a>
             </div>
         </div>
     </div>
