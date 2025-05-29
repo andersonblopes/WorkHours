@@ -4,6 +4,7 @@ import com.lopes.workhours.domain.entities.WorkLog;
 import com.lopes.workhours.domain.filter.WorkLogFilter;
 import com.lopes.workhours.service.WorkLogService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -25,6 +26,14 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/home")
 public class HomeController {
+
+    @Value("${app.version}")
+    private String appVersion;
+
+    @ModelAttribute("appVersion")
+    public String getAppVersion() {
+        return appVersion;
+    }
 
     private final WorkLogService service;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");

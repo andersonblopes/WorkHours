@@ -1,6 +1,8 @@
 <!-- src/main/resources/templates/fragments/footer.html -->
 <div th:fragment="footer" class="footer">
-    <div class="footer">
-        <p>&copy; 2025 I9-Devs. All rights reserved.</p>
+    <div class="footer position-relative text-center">
+        <p class="mb-0 d-inline-block">&copy; 2025 I9-Devs. All rights reserved.</p>
+        <span class="position-absolute end-0 top-50 translate-middle-y me-3">vr: <span
+                th:text="${appVersion}"></span></span>
     </div>
 </div>

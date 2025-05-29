@@ -1,3 +1,5 @@
+app:
+  version: @project.version@
 spring:
   messages:
     encoding: UTF-8
