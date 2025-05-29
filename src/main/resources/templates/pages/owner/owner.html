@@ -27,14 +27,19 @@
                            type="text">
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <input class="form-control" name="email" th:placeholder="#{app.lbl.email}"
                            th:value="${filter.email}"
                            type="text">
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <input class="form-control" name="phone" th:placeholder="#{app.lbl.phone}"
                            th:value="${filter.phone}"
+                           type="text">
+                </div>
+                <div class="col-md-2">
+                    <input class="form-control" name="user" th:placeholder="#{app.lbl.user}"
+                           th:value="${filter.user}"
                            type="text">
                 </div>
 
@@ -112,17 +117,16 @@
                 <ul class="pagination mb-0">
                     <li class="page-item" th:classappend="${owners.first} ? 'disabled'">
                         <a class="page-link" th:href="@{/owner(page=${owners.number - 1}, size=${owners.size},
-                         name=${filter.name}, email=${filter.email}, phone=${filter.phone})}">&laquo;</a>
+                         name=${filter.name}, email=${filter.email}, phone=${filter.phone}, user=${filter.user})}">&laquo;</a>
                     </li>
                     <li class="page-item" th:classappend="${owners.last} ? 'disabled'">
                         <a class="page-link" th:href="@{/owner(page=${owners.number + 1}, size=${owners.size},
-                         name=${filter.name}, email=${filter.email}, phone=${filter.phone})}">&raquo;</a>
+                         name=${filter.name}, email=${filter.email}, phone=${filter.phone}, user=${filter.user})}">&raquo;</a>
                     </li>
                 </ul>
             </nav>
         </div>
     </div>
-
 
     <!-- Footer -->
     <div class="footer" th:replace="fragments/footer :: footer"></div>

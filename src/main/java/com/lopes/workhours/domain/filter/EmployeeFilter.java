@@ -11,10 +11,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class OwnerFilter {
+public class EmployeeFilter {
     private String user;
     private String name;
-    private String email;
     private String phone;
+    private String email;
     private Boolean active;
 }

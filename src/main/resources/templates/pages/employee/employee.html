@@ -17,6 +17,55 @@
         </a>
     </div>
 
+    <!-- Filter -->
+    <div class="container">
+        <div class="my-4">
+            <form class="row g-3 align-items-center w-100" method="get" th:action="@{/employee}">
+                <div class="col-md-4">
+                    <input class="form-control" name="name" th:placeholder="#{app.lbl.name}"
+                           th:value="${filter.name}"
+                           type="text">
+                </div>
+
+                <div class="col-md-2">
+                    <input class="form-control" name="email" th:placeholder="#{app.lbl.email}"
+                           th:value="${filter.email}"
+                           type="text">
+                </div>
+                <div class="col-md-2">
+                    <input class="form-control" name="phone" th:placeholder="#{app.lbl.phone}"
+                           th:value="${filter.phone}"
+                           type="text">
+                </div>
+                <div class="col-md-2">
+                    <input class="form-control" name="user" th:placeholder="#{app.lbl.user}"
+                           th:value="${filter.user}"
+                           type="text">
+                </div>
+
+                <!-- New: size selection dropdown -->
+                <div class="col-md-1">
+                    <select class="form-select" name="size" onchange="this.form.submit()">
+                        <option th:selected="${employees.size == 5}" th:value="5">5</option>
+                        <option th:selected="${employees.size == 10}" th:value="10">10</option>
+                        <option th:selected="${employees.size == 25}" th:value="25">25</option>
+                        <option th:selected="${employees.size == 50}" th:value="50">50</option>
+                        <option th:selected="${employees.size == 100}" th:value="100">100</option>
+                    </select>
+                </div>
+
+                <div class="col-md-1 d-flex align-items-center">
+                    <button class="btn btn-primary me-2" th:title="#{app.lbl.search}" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <a class="btn btn-secondary me-2" th:href="@{/employee}" th:title="#{app.lbl.clean}">
+                        <i class="fas fa-times"></i>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <table class="table table-bordered mt-3">
         <thead class="table-light">
         <tr>
@@ -25,6 +74,7 @@
             <th th:text="#{app.lbl.nickname}">Nickname</th>
             <th th:text="#{app.lbl.email}">Email</th>
             <th th:text="#{app.lbl.phone}">Phone number</th>
+            <th th:text="#{app.lbl.user}">User</th>
             <th class="text-center" th:text="#{app.lbl.actions}">Actions</th>
         </tr>
         </thead>
@@ -35,6 +85,7 @@
             <td th:text="${employee.nickName}"></td>
             <td th:text="${employee.email}"></td>
             <td th:text="${employee.phoneNumber}"></td>
+            <td th:text="${employee.user.nickName}"></td>
             <td class="text-center">
                 <a th:title="#{app.lbl.edit}"
                    class="text-warning me-2" th:href="@{|/employee/edit/${employee.id}|}">
@@ -52,6 +103,30 @@
         </tr>
         </tbody>
     </table>
+
+    <!-- No records message -->
+    <div th:if="${employees.totalElements == 0}" class="alert alert-warning mt-3" role="alert">
+        <span th:text="#{app.lbl.no_results}">No records found</span>
+    </div>
+
+    <!-- Pagination -->
+    <div class="d-flex justify-content-between align-items-center" th:if="${employees.totalElements > 0}">
+        <div th:text="#{app.pagination(${employees.number + 1}, ${employees.totalPages})}">Page 1 of 5</div>
+        <div>
+            <nav>
+                <ul class="pagination mb-0">
+                    <li class="page-item" th:classappend="${employees.first} ? 'disabled'">
+                        <a class="page-link" th:href="@{/owner(page=${employees.number - 1}, size=${employees.size},
+                         name=${filter.name}, email=${filter.email}, phone=${filter.phone}, user=${filter.user})}">&laquo;</a>
+                    </li>
+                    <li class="page-item" th:classappend="${employees.last} ? 'disabled'">
+                        <a class="page-link" th:href="@{/employee(page=${employees.number + 1}, size=${employees.size},
+                         name=${filter.name}, email=${filter.email}, phone=${filter.phone}, user=${filter.user})}">&raquo;</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
 
     <!-- Footer -->
     <div class="footer" th:replace="fragments/footer :: footer"></div>

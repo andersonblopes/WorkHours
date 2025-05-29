@@ -1,8 +1,8 @@
 package com.lopes.workhours.domain.repository.custom.impl;
 
-import com.lopes.workhours.domain.entities.Owner;
-import com.lopes.workhours.domain.filter.OwnerFilter;
-import com.lopes.workhours.domain.repository.custom.OwnerCustomRepository;
+import com.lopes.workhours.domain.entities.Employee;
+import com.lopes.workhours.domain.filter.EmployeeFilter;
+import com.lopes.workhours.domain.repository.custom.EmployeeCustomRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
@@ -20,21 +20,21 @@ import static org.springframework.util.StringUtils.hasText;
 
 @Slf4j
 @Repository
-public class OwnerCustomRepositoryImpl implements OwnerCustomRepository {
+public class EmployeeCustomRepositoryImpl implements EmployeeCustomRepository {
 
     @PersistenceContext
     private EntityManager entityManager;
 
     @Override
-    public Page<Owner> findByFilter(final OwnerFilter filter, final Pageable pageable) {
-        TypedQuery<Owner> typedQuery;
-        Page<Owner> page;
+    public Page<Employee> findByFilter(final EmployeeFilter filter, final Pageable pageable) {
+        TypedQuery<Employee> typedQuery;
+        Page<Employee> page;
 
         StringBuilder jpql = new StringBuilder("""
                 SELECT
                  DISTINCT e
                 FROM
-                 Owner e
+                 Employee e
                  INNER JOIN FETCH e.user user
                 """);
 
@@ -56,7 +56,7 @@ public class OwnerCustomRepositoryImpl implements OwnerCustomRepository {
 
         try {
 
-            typedQuery = entityManager.createQuery(jpql.toString(), Owner.class);
+            typedQuery = entityManager.createQuery(jpql.toString(), Employee.class);
 
             setParameters(filter, typedQuery);
 
@@ -76,13 +76,13 @@ public class OwnerCustomRepositoryImpl implements OwnerCustomRepository {
     }
 
     @Override
-    public Long countByFilter(OwnerFilter filter) {
+    public Long countByFilter(EmployeeFilter filter) {
         long total = 0L;
 
         StringBuilder jpql = new StringBuilder("""
                 SELECT COUNT(DISTINCT e.id)
                 FROM
-                 Owner e
+                 Employee e
                  INNER JOIN e.user user
                 """);
 
@@ -101,7 +101,7 @@ public class OwnerCustomRepositoryImpl implements OwnerCustomRepository {
         return total;
     }
 
-    private String mountWhere(OwnerFilter filter) {
+    private String mountWhere(EmployeeFilter filter) {
         final StringBuilder where = new StringBuilder(" WHERE 1=1 ");
 
         if (hasText(filter.getUser())) {
@@ -146,7 +146,7 @@ public class OwnerCustomRepositoryImpl implements OwnerCustomRepository {
     }
 
 
-    private void setParameters(OwnerFilter filter, Query query) {
+    private void setParameters(EmployeeFilter filter, Query query) {
 
         if (hasText(filter.getUser())) {
             query.setParameter("user", filter.getUser());

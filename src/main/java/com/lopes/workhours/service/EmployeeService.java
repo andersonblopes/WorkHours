@@ -1,9 +1,12 @@
 package com.lopes.workhours.service;
 
 import com.lopes.workhours.domain.entities.Employee;
+import com.lopes.workhours.domain.filter.EmployeeFilter;
 import com.lopes.workhours.domain.repository.EmployeeRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +19,10 @@ public class EmployeeService {
 
     public List<Employee> findAll() {
         return repository.findAll();
+    }
+
+    public Page<Employee> findByFilter(EmployeeFilter filter, Pageable pageable) {
+        return repository.findByFilter(filter, pageable);
     }
 
     public Employee save(Employee employee) {
