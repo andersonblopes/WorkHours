@@ -112,13 +112,11 @@ public class OwnerCustomRepositoryImpl implements OwnerCustomRepository {
 
         if (hasText(filter.getName())) {
             where.append("""
-                    AND CAST(UNACCENT(UPPER(e.name)) AS STRING) LIKE CAST(UNACCENT(UPPER(CONCAT('%', :name, '%'))) AS STRING)
-                    """);
-        }
-
-        if (hasText(filter.getNickName())) {
-            where.append("""
-                    AND CAST(UNACCENT(UPPER(e.nickName)) AS STRING) LIKE CAST(UNACCENT(UPPER(CONCAT('%', :nickName, '%'))) AS STRING)
+                    AND (
+                            CAST(UNACCENT(UPPER(e.name)) AS STRING) LIKE CAST(UNACCENT(UPPER(CONCAT('%', :name, '%'))) AS STRING)
+                            OR
+                            CAST(UNACCENT(UPPER(e.nickName)) AS STRING) LIKE CAST(UNACCENT(UPPER(CONCAT('%', :name, '%'))) AS STRING)
+                        )
                     """);
         }
 
@@ -128,9 +126,9 @@ public class OwnerCustomRepositoryImpl implements OwnerCustomRepository {
                     """);
         }
 
-        if (hasText(filter.getPhoneNumber())) {
+        if (hasText(filter.getPhone())) {
             where.append("""
-                    AND e.phoneNumber = :phoneNumber
+                    AND e.phoneNumber = :phone
                     """);
         }
 
@@ -154,16 +152,12 @@ public class OwnerCustomRepositoryImpl implements OwnerCustomRepository {
             query.setParameter("name", filter.getName());
         }
 
-        if (hasText(filter.getNickName())) {
-            query.setParameter("nickName", filter.getNickName());
-        }
-
         if (hasText(filter.getEmail())) {
             query.setParameter("email", filter.getEmail());
         }
 
-        if (hasText(filter.getPhoneNumber())) {
-            query.setParameter("phoneNumber", filter.getPhoneNumber());
+        if (hasText(filter.getPhone())) {
+            query.setParameter("phone", filter.getPhone());
         }
 
         if (filter.getActive() != null) {

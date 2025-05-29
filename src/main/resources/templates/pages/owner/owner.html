@@ -17,6 +17,50 @@
         </a>
     </div>
 
+    <!-- Filter -->
+    <div class="container">
+        <div class="my-4">
+            <form class="row g-3 align-items-center w-100" method="get" th:action="@{/owner}">
+                <div class="col-md-4">
+                    <input class="form-control" name="name" th:placeholder="#{app.lbl.name}"
+                           th:value="${filter.name}"
+                           type="text">
+                </div>
+
+                <div class="col-md-3">
+                    <input class="form-control" name="email" th:placeholder="#{app.lbl.email}"
+                           th:value="${filter.email}"
+                           type="text">
+                </div>
+                <div class="col-md-3">
+                    <input class="form-control" name="phone" th:placeholder="#{app.lbl.phone}"
+                           th:value="${filter.phone}"
+                           type="text">
+                </div>
+
+                <!-- New: size selection dropdown -->
+                <div class="col-md-1">
+                    <select class="form-select" name="size" onchange="this.form.submit()">
+                        <option th:selected="${owners.size == 5}" th:value="5">5</option>
+                        <option th:selected="${owners.size == 10}" th:value="10">10</option>
+                        <option th:selected="${owners.size == 25}" th:value="25">25</option>
+                        <option th:selected="${owners.size == 50}" th:value="50">50</option>
+                        <option th:selected="${owners.size == 100}" th:value="100">100</option>
+                    </select>
+                </div>
+
+                <div class="col-md-1 d-flex align-items-center">
+                    <button class="btn btn-primary me-2" th:title="#{app.lbl.search}" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <a class="btn btn-secondary me-2" th:href="@{/owner}" th:title="#{app.lbl.clean}">
+                        <i class="fas fa-times"></i>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <table class="table table-bordered mt-3">
         <thead class="table-light">
         <tr>

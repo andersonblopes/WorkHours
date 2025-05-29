@@ -14,8 +14,7 @@ import lombok.Setter;
 public class OwnerFilter {
     private String userNickName;
     private String name;
-    private String nickName;
     private String email;
-    private String phoneNumber;
+    private String phone;
     private Boolean active;
 }
